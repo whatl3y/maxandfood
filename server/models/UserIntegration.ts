@@ -22,6 +22,12 @@ const UserIntegration = sequelize.define(
     expires: DataTypes.STRING,
   },
   {
+    indexes: [
+      {
+        unique: true,
+        fields: ['type', 'user_id'],
+      },
+    ],
     underscored: true,
   }
 )

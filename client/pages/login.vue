@@ -4,11 +4,13 @@
       h3.margin-top-none Login
       div.alert.alert-danger(v-if="error") {{ error }}
       div.form-group
+        oauth-button(v-if="integrations && integrations.google" type="google" href="/auth/google")
+      div.form-group
         label(for="login") Email address:
         input.input-block(type="text" placeholder="Email address" v-model="email")
       div.form-group
         label(for="login") Password:
-        input.input-block(type="password" v-model="password")
+        input.input-block(type="password" placeholder="Password" v-model="password")
       div.margin-top.text-center
         button.btn-primary(type="submit") Login
 </template>
@@ -27,7 +29,7 @@ export default Vue.extend({
     }
   },
 
-  computed: mapState(['user']),
+  computed: mapState(['integrations', 'user']),
 
   methods: {
     async tryToLogin(evt: Event) {

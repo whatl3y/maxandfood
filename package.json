@@ -1,7 +1,16 @@
 {
-  "name": "eatwithmax",
-  "version": "1.0.0",
+  "name": "maxandfood",
+  "version": "0.0.1",
+  "author": "Lance Whatley <whatl3y@gmail.com>",
+  "description": "Eat good food & review recipes with Max.",
   "private": true,
+  "engines": {
+    "node": ">= 14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whatl3y/maxandfood"
+  },
   "scripts": {
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
@@ -10,11 +19,13 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "migrate": "sequelize-cli db:migrate",
+    "seed": "sequelize-cli db:seed:all",
     "test": "jest"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/axios": "^5.12.2",
+    "aws-sdk": "^2.747.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -34,7 +45,8 @@
     "pg": "^8.3.3",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "sequelize-encrypted": "^1.0.0"
+    "sequelize-encrypted": "^1.0.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.0",
@@ -42,10 +54,14 @@
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
+    "@types/bcrypt": "^3.0.0",
+    "@types/debug": "^4.1.5",
+    "@types/jsonwebtoken": "^8.5.0",
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
+    "bootstrap": "^4.5.2",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-nuxt": "^1.0.0",
@@ -57,6 +73,8 @@
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^10.0.1",
+    "tiptap": "^1.29.6",
+    "tiptap-extensions": "^1.32.7",
     "ts-jest": "^26.1.3",
     "vue-jest": "^3.0.4"
   }

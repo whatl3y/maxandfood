@@ -9,7 +9,7 @@ const router = newRouter()
 /**
  * Authenticate with google
  */
-router.post(
+router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
@@ -20,12 +20,16 @@ router.post(
 /**
  * Callback for authentication with google
  */
-router.post('/google/callback', async function googleCallbackHandler(
+router.get('/google/callback', async function googleCallbackHandler(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  passport.authenticate('google', handleUserLogin(req, res))(req, res, next)
+  passport.authenticate('google', handleUserLogin(req, res, true))(
+    req,
+    res,
+    next
+  )
 })
 
 /**
@@ -44,7 +48,7 @@ router.post('/login', async function loginHandler(
  * passport strategy process JWT token and send back to user
  * in a cookie.
  */
-function handleUserLogin(req: Request, res: Response) {
+function handleUserLogin(req: Request, res: Response, redirect?: boolean) {
   return function (error: Error, user: User) {
     if (error) {
       return res.status(400).json({ error: error.toJSON() })
@@ -74,6 +78,9 @@ function handleUserLogin(req: Request, res: Response) {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
         })
+
+        if (redirect) return res.redirect('/')
+
         res.json(true)
       } catch (err) {
         return res.status(500).json({ error: err.toJSON() })

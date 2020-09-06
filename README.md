@@ -1,4 +1,4 @@
-# eatwithmax
+# maxandfood
 
 ## Database Updates
 

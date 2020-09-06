@@ -19,10 +19,12 @@ if (!('toJSON' in Error.prototype))
 import { app } from '../express'
 import api from './api'
 import auth from './auth'
+import global from './global'
 import logout from './logout'
 
 app.use('/api', api)
 app.use('/auth', auth)
+app.use('/global', global)
 app.use('/logout', logout)
 
 export default app

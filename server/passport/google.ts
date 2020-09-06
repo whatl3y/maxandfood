@@ -1,5 +1,6 @@
+import assert from 'assert'
 import PassportGoogle from 'passport-google-oauth20'
-import { User, UserIntegrations } from '../models'
+import { User, UserIntegration } from '../models'
 
 const GoogleStrategy = PassportGoogle.Strategy
 
@@ -26,15 +27,20 @@ export default function GooglePassportStrategy() {
       try {
         const emailAddress = profile.emails[0].value.toLowerCase()
 
-        const user = await User.findOrCreate({
+        const [user] = await User.findOrCreate({
           where: {
             email: emailAddress,
           },
         })
-        const integration = await UserIntegrations.findOrCreate({
-          type: 'google',
-          userId: user.id,
+        assert(user.id, 'user record not created')
+
+        const [integration] = await UserIntegration.findOrCreate({
+          where: {
+            type: 'google',
+            userId: user.id,
+          },
         })
+        assert(integration.id, 'integration record not created')
 
         user.firstName = user.firstName || profile.name.givenName
         user.lastName = user.lastName || profile.name.familyName

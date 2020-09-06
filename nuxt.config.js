@@ -24,7 +24,19 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/public/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/public/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css',
+      },
+    ],
+    script: [
+      {
+        src: 'https://use.fontawesome.com/028467eb54.js',
+      },
+    ],
   },
   /*
    ** Global CSS

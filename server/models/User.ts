@@ -1,6 +1,8 @@
+import assert from 'assert'
 import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import JWT from 'jsonwebtoken'
+import { Account, AccountUser } from '.'
 import { DataTypes, sequelize } from '../sequelize'
 
 const User = sequelize.define(
@@ -21,6 +23,7 @@ const User = sequelize.define(
     password: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
+    currentAccountId: { type: DataTypes.UUID, allowNull: false },
     avatarUrl: DataTypes.STRING,
     lastLogin: DataTypes.DATE,
   },
@@ -34,11 +37,14 @@ User.prototype.getJwtPayload = function getJwtPayload() {
     id: this.id,
     expires:
       Date.now() +
-      parseInt(process.env.JWT_EXPIRATION_MS || 1000 * 60 * 60 * 24 * 3),
+      parseInt(
+        process.env.JWT_EXPIRATION_MS || (1000 * 60 * 60 * 24 * 3).toString()
+      ),
   }
 }
 
 User.prototype.getJwtToken = function getJwtToken() {
+  assert(process.env.SECRET_KEY, 'secret key for signing JWT does not exist')
   return JWT.sign(JSON.stringify(this.getJwtPayload()), process.env.SECRET_KEY)
 }
 
@@ -73,11 +79,17 @@ User.passwordHasMinimumRequirements = function (proposedPassword: string) {
   return true
 }
 
-User.beforeCreate(async (user) => {
-  user.password = await bcrypt.hash(user.password, 10)
+User.beforeCreate(async (user: typeof User) => {
+  user.password = user.password ? await bcrypt.hash(user.password, 10) : null
 })
 
-User.associate = (models) => {
+User.afterCreate(async (user: typeof User) => {
+  const account = await Account.create()
+  await AccountUser.create({ accountId: account.id, userId: user.id })
+})
+
+User.associate = (models: any) => {
+  User.belongsToMany(models.Account, { through: models.AccountUser })
   User.hasMany(models.UserIntegration)
 }
 

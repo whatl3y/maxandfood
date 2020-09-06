@@ -1,6 +1,8 @@
 import debug from 'debug'
 import Sequelize from 'sequelize'
-import EncryptedField from 'sequelize-encrypted'
+
+// import EncryptedField from 'sequelize-encrypted'
+const EncryptedField = require('sequelize-encrypted')
 
 const isProduction = process.env.NODE_ENV === 'production'
 

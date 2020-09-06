@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'user_integrations',
+      'account_users',
       {
         id: {
           allowNull: false,
@@ -10,29 +10,28 @@ module.exports = {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
         },
-        userId: {
-          type: Sequelize.UUID,
-          references: { model: 'users', key: 'id' },
+        accountId: {
           allowNull: false,
+          type: Sequelize.UUID,
+          references: {
+            model: 'accounts',
+            key: 'id',
+          },
+          field: 'account_id',
+        },
+        userId: {
+          allowNull: false,
+          type: Sequelize.UUID,
+          references: {
+            model: 'users',
+            key: 'id',
+          },
           field: 'user_id',
         },
-        type: {
-          type: Sequelize.STRING,
+        role: {
           allowNull: false,
-        },
-        uid: {
           type: Sequelize.STRING,
-        },
-        accessToken: {
-          type: Sequelize.STRING,
-          field: 'access_token',
-        },
-        refreshToken: {
-          type: Sequelize.STRING,
-          field: 'refresh_token',
-        },
-        expires: {
-          type: Sequelize.STRING,
+          defaultValue: 'admin',
         },
         createdAt: {
           allowNull: false,
@@ -49,13 +48,13 @@ module.exports = {
         indexes: [
           {
             unique: true,
-            fields: ['type', 'user_id'],
+            fields: ['account_id', 'user_id'],
           },
         ],
       }
     )
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('user_integrations')
+    await queryInterface.dropTable('account_users')
   },
 }
