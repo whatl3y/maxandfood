@@ -4,7 +4,7 @@
     div.nav-brand.row.m-0
       h4.m-0.text-nowrap.align-middle
         nuxt-link(to="/")
-          img.my-0.mx-2.float-left.no-border(style="max-height: 30px",src="/public/max-papoose.png")
+          img.my-0.mx-2.float-left.no-border(style="max-height: 30px",src="/public/favicon.ico")
           span.float-left.m-0 max &amp; food
     div.collapsible
       input#collapsible1(type="checkbox" name="collapsible1")
@@ -22,7 +22,7 @@
               nuxt-link(to="/admin/recipes")
                 small Your Recipes
             li
-              nuxt-link(to="/admin/new" title="Add recipe!")
+              nuxt-link(to="/admin/recipe/new" title="Add recipe!")
                 button.btn-success.btn-small #[i.fa.fa-plus]
             li
               a(href="/logout" title="Logout")
@@ -36,7 +36,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapState } from 'vuex'
-import { RootState } from '../store/state'
 
 export default Vue.extend({
   computed: mapState(['user']),

@@ -20,6 +20,9 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+      endpoint: {
+        type: Sequelize.STRING,
+      },
       isLive: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
@@ -28,6 +31,7 @@ module.exports = {
       },
       yieldServings: {
         type: Sequelize.INTEGER,
+        field: 'yield_servings',
       },
       prepTime: {
         type: Sequelize.FLOAT,
@@ -44,6 +48,13 @@ module.exports = {
       cookTimeUnits: {
         type: Sequelize.STRING,
         field: 'cook_time_units',
+      },
+      backgroundImageName: {
+        type: Sequelize.STRING,
+        field: 'background_image_name',
+      },
+      narrative: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,

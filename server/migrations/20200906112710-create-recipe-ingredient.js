@@ -4,9 +4,9 @@ module.exports = {
     await queryInterface.createTable('recipe_ingredients', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       recipeId: {
         allowNull: false,
@@ -25,6 +25,9 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING,
+      },
+      ordering: {
+        type: Sequelize.INTEGER,
       },
       raw: {
         type: Sequelize.JSONB,

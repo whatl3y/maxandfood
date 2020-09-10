@@ -2,9 +2,9 @@ import Account from './Account'
 import AccountImage from './AccountImage'
 import AccountUser from './AccountUser'
 import Recipe from './Recipe'
+import RecipeDirection from './RecipeDirection'
 import RecipeImage from './RecipeImage'
 import RecipeIngredient from './RecipeIngredient'
-import RecipeStep from './RecipeStep'
 import User from './User'
 import UserIntegration from './UserIntegration'
 
@@ -13,9 +13,9 @@ const models = {
   AccountImage,
   AccountUser,
   Recipe,
+  RecipeDirection,
   RecipeImage,
   RecipeIngredient,
-  RecipeStep,
   User,
   UserIntegration,
 }
@@ -32,9 +32,9 @@ export {
   AccountImage,
   AccountUser,
   Recipe,
+  RecipeDirection,
   RecipeImage,
   RecipeIngredient,
-  RecipeStep,
   User,
   UserIntegration,
 }

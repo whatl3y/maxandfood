@@ -1,12 +1,12 @@
 'use strict'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('recipe_steps', {
+    await queryInterface.createTable('recipe_directions', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       recipeId: {
         allowNull: false,
@@ -36,6 +36,6 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('recipe_steps')
+    await queryInterface.dropTable('recipe_directions')
   },
 }

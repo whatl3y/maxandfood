@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
   props: {
@@ -12,12 +13,14 @@ export default Vue.extend({
   },
 
   computed: {
+    ...mapState(['s3BucketUrl']),
+
     imgClass() {
       return this.position || 'bottomright'
     },
 
     imgSrc() {
-      return `http://public.maxandfood.com/${this.src}`
+      return `${this.s3BucketUrl}/${this.src}`
     },
   },
 })
@@ -26,8 +29,17 @@ export default Vue.extend({
 <style lang="scss" scoped>
 img {
   position: fixed;
-  max-width: 200px;
   max-height: auto;
+
+  max-width: 50px;
+
+  @media only screen and (min-width: 768px) {
+    max-width: 120px;
+  }
+
+  @media only screen and (min-width: 992px) {
+    max-width: 200px;
+  }
 
   &.topleft {
     top: 50px;

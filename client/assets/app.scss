@@ -22,13 +22,25 @@ html {
 .row {
   margin-left: -1rem;
   margin-right: -1rem;
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  .col {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
 
   &.small-gutters {
     margin-left: -0.25rem;
     margin-right: -0.25rem;
 
-    .col {
-      padding: 0.25rem;
+    > .col {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
     }
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

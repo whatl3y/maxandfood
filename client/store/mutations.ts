@@ -13,6 +13,14 @@ const mutations: MutationTree<RootState> = {
   SET_USER(state, user: any) {
     state.user = user
   },
+
+  SET_ALL_RECIPES(state, recipes: any) {
+    state.allRecipes = recipes
+  },
+
+  SET_RECIPE(state, recipe: any) {
+    state.recipe = recipe
+  },
 }
 
 export default mutations

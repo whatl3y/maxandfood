@@ -12,16 +12,7 @@ const router = newRouter()
 // })
 
 router.all('/:version/:namespace/:command*', [
-  (req: Request, res: Response, next: NextFunction) => {
-    passport.authenticate('jwt', { session: false }, function (err, user) {
-      // TODO: what to do here by default if bad, expired, or no token?
-      if (err) return res.status(500).json({ error: err.toJSON() })
-      if (!user) return res.json(null)
-
-      req.user = user
-      next()
-    })(req, res, next)
-  },
+  jwtAuthMiddleware,
   async function handler(req: Request, res: Response) {
     const version = req.params.version
     const namespace = req.params.namespace
@@ -42,5 +33,20 @@ router.all('/:version/:namespace/:command*', [
     }
   },
 ])
+
+export function jwtAuthMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  passport.authenticate('jwt', { session: false }, function (err, user) {
+    // TODO: what to do here by default if bad, expired, or no token?
+    if (err) return res.status(500).json({ error: err.toJSON() })
+    if (!user) return res.json(null)
+
+    req.user = user
+    next()
+  })(req, res, next)
+}
 
 export default router

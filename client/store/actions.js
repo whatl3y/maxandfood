@@ -40,4 +40,16 @@ export default {
     const data = await this.$axios.$get('/api/1.0/users/me')
     commit('SET_USER', data && data.user)
   },
+
+  async getAllRecipes({ commit }) {
+    const { recipes } = await this.$axios.$get(`/api/1.0/recipes/all`)
+    commit('SET_ALL_RECIPES', recipes)
+  },
+
+  async getRecipe({ commit }, recipeId) {
+    const { recipe } = await this.$axios.$get(
+      `/api/1.0/recipes/get?id=${recipeId}`
+    )
+    commit('SET_RECIPE', recipe)
+  },
 }

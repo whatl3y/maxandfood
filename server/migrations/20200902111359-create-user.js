@@ -30,6 +30,10 @@ module.exports = {
       currentAccountId: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: 'accounts',
+          key: 'id',
+        },
         field: 'current_account_id',
       },
       lastLogin: {

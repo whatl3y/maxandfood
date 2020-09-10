@@ -4,9 +4,9 @@ module.exports = {
     await queryInterface.createTable('recipe_images', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       recipeId: {
         allowNull: false,
@@ -18,8 +18,12 @@ module.exports = {
         field: 'recipe_id',
       },
       imageName: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         field: 'image_name',
+      },
+      imageNameOptimized: {
+        type: Sequelize.STRING,
+        field: 'image_name_optimized',
       },
       ordering: {
         type: Sequelize.INTEGER,

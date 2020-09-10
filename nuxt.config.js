@@ -34,7 +34,7 @@ export default {
     ],
     script: [
       {
-        src: 'https://use.fontawesome.com/028467eb54.js',
+        src: 'https://kit.fontawesome.com/7d95a048cb.js',
       },
     ],
   },
@@ -46,7 +46,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [],
+  plugins: ['@/plugins/dropzone.js', '@/plugins/vue-select.js'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components

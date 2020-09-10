@@ -21,10 +21,12 @@ import api from './api'
 import auth from './auth'
 import global from './global'
 import logout from './logout'
+import upload from './upload'
 
 app.use('/api', api)
 app.use('/auth', auth)
 app.use('/global', global)
 app.use('/logout', logout)
+app.use('/upload', upload)
 
 export default app

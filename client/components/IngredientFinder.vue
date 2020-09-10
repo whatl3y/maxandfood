@@ -1,0 +1,57 @@
+<template lang="pug">
+  v-select(
+    placeholder="Search for ingredient..."
+    :options="options"
+    v-model="ingredient"
+    @search="ingredientSearch")
+      template(v-slot:no-options="{ search, searching }")
+        template(v-if="searching") Searching...
+        template(v-else)
+          i Type something to search...
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { debounce } from '../helpers/Utils'
+
+export default Vue.extend({
+  props: {
+    value: { type: Object, default: () => null },
+  },
+
+  data() {
+    return {
+      options: [
+        // {label: 'long desc of ingredient', raw: {raw JSON}}
+      ],
+    }
+  },
+
+  computed: {
+    ingredient: {
+      get() {
+        return this.value
+      },
+
+      set(newIng) {
+        this.$emit('input', newIng)
+      },
+    },
+  },
+
+  methods: {
+    ingredientSearch: debounce(async function (searchText): Promise<void> {
+      if (!searchText || searchText.length === 0) return
+      const data = await this.$axios.$get(
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dzwAjo4eBbJq9ERLlUGoz0dvUvZDcNnB8ibX5hgr&query=${searchText}`
+      )
+      this.options = data.foods.map((food) => ({
+        label: `${food.description}${
+          food.dataType === 'Branded' ? ` (${food.brandOwner})` : ''
+        }`,
+        raw: food,
+      }))
+    }, 600),
+  },
+})
+</script>

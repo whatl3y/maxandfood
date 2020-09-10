@@ -79,6 +79,24 @@ User.passwordHasMinimumRequirements = function (proposedPassword: string) {
   return true
 }
 
+User.getCurrentUserAndAccount = async (userId) => {
+  const user = await User.findOne({
+    where: { id: userId },
+    include: {
+      model: Account,
+      on: {
+        id: sequelize.where(
+          sequelize.col('accounts.id'),
+          '=',
+          sequelize.col('user.current_account_id')
+        ),
+      },
+    },
+  })
+  const [account] = user.accounts
+  return { user, account }
+}
+
 User.beforeCreate(async (user: typeof User) => {
   user.password = user.password ? await bcrypt.hash(user.password, 10) : null
 })
@@ -90,6 +108,7 @@ User.afterCreate(async (user: typeof User) => {
 
 User.associate = (models: any) => {
   User.belongsToMany(models.Account, { through: models.AccountUser })
+  User.belongsTo(models.Account, { foreignKey: 'current_account_id' })
   User.hasMany(models.UserIntegration)
 }
 

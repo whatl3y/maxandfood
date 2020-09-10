@@ -65,14 +65,28 @@ export default {
     value: { type: String, required: true },
   },
 
+  watch: {
+    value(newHtml) {
+      if (this.emitAfterOnUpdate) {
+        this.emitAfterOnUpdate = false
+        return
+      }
+      this.editor.setContent(newHtml)
+    },
+  },
+
   components: {
     EditorContent,
     EditorMenuBar,
   },
+
   data() {
     return {
+      emitAfterOnUpdate: false,
+
       editor: new Editor({
         onUpdate: ({ getHTML }) => {
+          this.emitAfterOnUpdate = true
           this.$emit('input', getHTML())
         },
         extensions: [

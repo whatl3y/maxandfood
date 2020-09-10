@@ -15,19 +15,8 @@ import Vue from 'vue'
 import { mapState } from 'vuex'
 
 export default Vue.extend({
-  middleware: 'checkAuth',
-
-  watch: {
-    async $route() {
-      await this.$store.dispatch('init')
-    },
-  },
-
+  middleware: ['initState', 'checkAuth'],
   computed: mapState(['bodyImages']),
-
-  async fetch() {
-    await this.$store.dispatch('init')
-  },
 })
 </script>
 
