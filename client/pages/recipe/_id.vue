@@ -16,9 +16,9 @@
             div(v-html="recipe.narrative")
 
           v-row
-            v-col.mb-4(md="7")
+            v-col.mb-4(md="6")
               images-previewer(:images="recipeImages")
-            v-col.mb-4(md="5")
+            v-col.mb-4(md="6")
               h5.mb-2 #[i.fa.fa-pepper-hot] Ingredients
               //- v-list
               //-   v-list-item-group

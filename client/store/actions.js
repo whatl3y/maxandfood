@@ -52,4 +52,9 @@ export default {
     )
     commit('SET_RECIPE', recipe)
   },
+
+  async getHomeRecipes({ commit }) {
+    const { recipes } = await this.$axios.$get('/api/1.0/recipes/home')
+    commit('SET_HOME_RECIPES', recipes)
+  },
 }

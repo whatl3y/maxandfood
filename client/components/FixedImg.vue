@@ -30,8 +30,8 @@ export default Vue.extend({
 img {
   position: fixed;
   max-height: auto;
-
   max-width: 50px;
+  z-index: 1000;
 
   @media only screen and (min-width: 768px) {
     max-width: 120px;

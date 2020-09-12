@@ -21,6 +21,10 @@ const mutations: MutationTree<RootState> = {
   SET_RECIPE(state, recipe: any) {
     state.recipe = recipe
   },
+
+  SET_HOME_RECIPES(state, recipes: any) {
+    state.homeRecipes = recipes
+  },
 }
 
 export default mutations

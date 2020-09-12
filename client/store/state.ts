@@ -5,6 +5,7 @@ type IState = {
   integrations: any
   user: any
 
+  homeRecipes: any[]
   allRecipes: any[]
   recipe: any
 }
@@ -16,6 +17,7 @@ const state = (): IState => ({
   integrations: null,
   user: null,
 
+  homeRecipes: [],
   allRecipes: [],
   recipe: null,
 })
