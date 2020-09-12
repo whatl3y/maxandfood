@@ -15,28 +15,49 @@ export default {
     res.json({ recipes })
   },
 
-  async get({ req, res, redis }) {
-    const recipeId = req.query.id
-    const recipe = await Recipe.findOne({
-      where: { id: recipeId },
+  async home({ req, res }) {
+    const recipes = await Recipe.findAll({
+      where: { isLive: true },
+      order: [
+        ['created_at', 'DESC'],
+        [RecipeImage, 'ordering', 'ASC'],
+      ],
       include: [
-        {
-          model: RecipeDirection,
-        },
         {
           model: RecipeImage,
         },
-        {
-          model: RecipeIngredient,
-        },
-      ],
-      order: [
-        [RecipeIngredient, 'ordering', 'ASC'],
-        [RecipeImage, 'ordering', 'ASC'],
-        [RecipeIngredient, 'ordering', 'ASC'],
       ],
     })
-    res.json({ recipe })
+    res.json({ recipes })
+  },
+
+  async get({ req, res, redis }) {
+    try {
+      const recipeId = req.query.id
+      const recipe = await Recipe.findOne({
+        where: { id: recipeId },
+        include: [
+          {
+            model: RecipeDirection,
+          },
+          {
+            model: RecipeImage,
+          },
+          {
+            model: RecipeIngredient,
+          },
+        ],
+        order: [
+          [RecipeIngredient, 'ordering', 'ASC'],
+          [RecipeImage, 'ordering', 'ASC'],
+          [RecipeIngredient, 'ordering', 'ASC'],
+        ],
+      })
+      res.json({ recipe })
+    } catch (err) {
+      // TODO: error log for bad recipe
+      res.json({ recipe: null })
+    }
   },
 
   async save({ req, res, redis }) {

@@ -42,11 +42,20 @@ export function jwtAuthMiddleware(
   passport.authenticate('jwt', { session: false }, function (err, user) {
     // TODO: what to do here by default if bad, expired, or no token?
     if (err) return res.status(500).json({ error: err.toJSON() })
-    if (!user) return res.json(null)
+    if (!user) {
+      const noAuthNeeded = noAuthRequired().some((str) =>
+        new RegExp(`^${str}$`).test(req.path)
+      )
+      if (!noAuthNeeded) return res.json(null)
+    }
 
     req.user = user
     next()
   })(req, res, next)
+}
+
+function noAuthRequired() {
+  return [`/1.0/recipes/get`, `/1.0/recipes/home`]
 }
 
 export default router

@@ -1,13 +1,32 @@
-@import './overrides';
+@import './variables';
 
 body,
 html {
+  font-family: $body-font, sans-serif;
   height: 100%;
   // background-attachment: fixed;
   // background-image: url('/public/maxhead.png');
   // background-position: bottom right;
   // background-repeat: no-repeat;
   // background-size: auto;
+
+  .v-application {
+    font-family: $body-font, sans-serif;
+  }
+}
+
+// body {
+//   margin-top: 4rem;
+// }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $header-font, sans-serif;
+  font-weight: normal;
 }
 
 a {
