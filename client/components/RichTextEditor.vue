@@ -1,38 +1,38 @@
 <template lang="pug">
-  .editor.border.py-4
-    editor-menu-bar.border-bottom.px-4.pb-3(:editor='editor', v-slot='{ commands, isActive }')
+  .editor.py-4
+    editor-menu-bar.px-4.pb-3(:editor='editor', v-slot='{ commands, isActive }')
       .menubar
-        button.menubar__button(:class="{ 'is-active': isActive.bold() }", @click='commands.bold')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.bold() }", @click='commands.bold')
           i.fa.fa-bold
-        button.menubar__button(:class="{ 'is-active': isActive.italic() }", @click='commands.italic')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.italic() }", @click='commands.italic')
           i.fa.fa-italic
-        button.menubar__button(:class="{ 'is-active': isActive.strike() }", @click='commands.strike')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.strike() }", @click='commands.strike')
           i.fa.fa-strikethrough
-        button.menubar__button(:class="{ 'is-active': isActive.underline() }", @click='commands.underline')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.underline() }", @click='commands.underline')
           i.fa.fa-underline
-        button.menubar__button(:class="{ 'is-active': isActive.code() }", @click='commands.code')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.code() }", @click='commands.code')
           i.fa.fa-code
-        //- button.menubar__button(:class="{ 'is-active': isActive.paragraph() }", @click='commands.paragraph')
+        //- v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.paragraph() }", @click='commands.paragraph')
         //-   icon(name='paragraph')
-        //- button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 1 }) }", @click='commands.heading({ level: 1 })')
-        //-   | H1
-        //- button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 2 }) }", @click='commands.heading({ level: 2 })')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.heading({ level: 1 }) }", @click='commands.heading({ level: 1 })')
+          | H1
+        //- v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.heading({ level: 2 }) }", @click='commands.heading({ level: 2 })')
         //-   | H2
-        button.menubar__button(:class="{ 'is-active': isActive.heading({ level: 3 }) }", @click='commands.heading({ level: 3 })')
-          | H3
-        button.menubar__button(:class="{ 'is-active': isActive.bullet_list() }", @click='commands.bullet_list')
+        //- v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.heading({ level: 3 }) }", @click='commands.heading({ level: 3 })')
+        //-   | H3
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.bullet_list() }", @click='commands.bullet_list')
           i.fa.fa-list-ul
-        button.menubar__button(:class="{ 'is-active': isActive.ordered_list() }", @click='commands.ordered_list')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.ordered_list() }", @click='commands.ordered_list')
           i.fa.fa-list-ol
-        button.menubar__button(:class="{ 'is-active': isActive.blockquote() }", @click='commands.blockquote')
+        v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.blockquote() }", @click='commands.blockquote')
           i.fa.fa-quote-right
-        //- button.menubar__button(:class="{ 'is-active': isActive.code_block() }", @click='commands.code_block')
+        //- v-btn.mr-1(fab dark small color="black" :class="{ 'is-active': isActive.code_block() }", @click='commands.code_block')
         //-   icon(name='code')
-        button.menubar__button(@click='commands.horizontal_rule')
+        v-btn.mr-1(fab dark small color="black" @click='commands.horizontal_rule')
           | --
-        button.menubar__button(@click='commands.undo')
+        v-btn.mr-1(fab dark small color="black" @click='commands.undo')
           i.fa.fa-undo
-        //- button.menubar__button(@click='commands.redo')
+        //- v-btn.mr-1(fab dark small color="black" @click='commands.redo')
         //-   i.fa.fa-redo
     editor-content.px-4.editor__content(:editor='editor')
 

@@ -1,9 +1,4 @@
 @import './overrides';
-@import '@/../node_modules/bootstrap/scss/functions';
-@import '@/../node_modules/bootstrap/scss/variables';
-@import '@/../node_modules/bootstrap/scss/mixins';
-@import '@/../node_modules/bootstrap/scss/utilities';
-@import '@/../node_modules/papercss/src/styles';
 
 body,
 html {
@@ -15,30 +10,8 @@ html {
   // background-size: auto;
 }
 
-// body {
-//   margin-top: 4rem;
-// }
-
-.row {
-  margin-left: -1rem;
-  margin-right: -1rem;
-  padding-top: 0px;
-  padding-bottom: 0px;
-
-  .col {
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-
-  &.small-gutters {
-    margin-left: -0.25rem;
-    margin-right: -0.25rem;
-
-    > .col {
-      padding-left: 0.25rem;
-      padding-right: 0.25rem;
-    }
-  }
+a {
+  text-decoration: inherit;
 }
 
 .clickable {

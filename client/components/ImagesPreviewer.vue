@@ -1,10 +1,10 @@
 <template lang="pug">
-  div.row.small-gutters.mb-0
-    div.col.xs-12.mb-2
-      img(:src="`${s3BucketUrl}/${main}`" :class="!border && 'border-0'")
-    template(v-for="image in images")
-      div.col.xs-4.sm-3.md-2.clickable(v-if="image != main" @click="changeMain(image)")
-        img.border-0(:src="`${s3BucketUrl}/${image}`" :class="!border && 'border-0'")
+  v-row(dense align="center" justify="center")
+    v-col(cols="12")
+      v-img(:src="`${s3BucketUrl}/${main}`")
+    template(v-for="(image, ind) in images")
+      v-col(:key="ind" xs="4" sm="3" md="2" v-if="image != main" @click="changeMain(image)")
+        v-img.clickable(:src="`${s3BucketUrl}/${image}`")
 </template>
 
 <script lang="ts">

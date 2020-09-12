@@ -1,10 +1,17 @@
 <template lang="pug">
-  div.form-group.m-0
-    label
-      h4.my-0 {{ label }}
-    input#prep-time.mb-1.input-block(type="number" :placeholder="label" v-model="time")
-    select#prep-time-unit.input-block(v-model="units")
-        option(v-for="u in timeUnits" :value="u") {{ u }}
+  v-row(align="center")
+    v-col(cols="12")
+      v-text-field(
+        v-model='time'
+        light
+        prepend-icon='mdi-clock'
+        :label='label')
+    v-col(cols="12")
+      v-select(
+        label="Time units"
+        :items="timeUnits"
+        v-model="units"
+        prepend-icon="mdi-clock")
 </template>
 
 <script lang="ts">

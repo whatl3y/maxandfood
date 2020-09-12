@@ -1,10 +1,10 @@
 <template lang="pug">
-  a.oauth-login-button.d-flex.flex-row.align-items-center.justify-content-center(
+  v-btn.oauth-login-button(
     v-if="map"
     :class="map.mainClass"
     :href="map.link")
-    i(:class="map.deviconClass")
-    div Authenticate with {{ map.text }}
+      i(:class="map.deviconClass")
+      div Authenticate with {{ map.text }}
 </template>
 
 <script>
@@ -90,37 +90,37 @@ export default {
   }
 
   &.docusign {
-    background: rgb(255, 206, 0);
+    background: rgb(255, 206, 0) !important;
     border-color: rgb(255, 206, 0);
     color: #000000;
   }
 
   &.github {
-    background: #24292e;
+    background: #24292e !important;
     border-color: #ccc;
     color: #fff;
   }
 
   &.google {
-    background: #d14836;
+    background: #d14836 !important;
     border-color: #f00;
     color: #fff;
   }
 
   &.intuit {
-    background: #24a205;
+    background: #24a205 !important;
     border-color: #070;
     color: #fff;
   }
 
   &.o365 {
-    background: #009ee9;
+    background: #009ee9 !important;
     border-color: #0069d0;
     color: #fff;
   }
 
   &.okta {
-    background: #007dc1;
+    background: #007dc1 !important;
     border-color: #007dc1;
     color: #fff;
   }

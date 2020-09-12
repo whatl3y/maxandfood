@@ -1,18 +1,18 @@
 <template lang="pug">
-  div.paper.container.container-xs.margin-bottom-large
-    form(@submit="tryToLogin")
-      h3.margin-top-none Login
-      div.alert.alert-danger(v-if="error") {{ error }}
-      div.form-group
-        oauth-button(v-if="integrations && integrations.google" type="google" href="/auth/google")
-      div.form-group
-        label(for="login") Email address:
-        input.input-block(type="text" placeholder="Email address" v-model="email")
-      div.form-group
-        label(for="login") Password:
-        input.input-block(type="password" placeholder="Password" v-model="password")
-      div.margin-top.text-center
-        button.btn-primary(type="submit") Login
+  v-container(fill-height)
+    v-layout(align-center justify-center)
+      v-flex.login-form.text-xs-center
+        v-alert(v-if="error" type="error") {{ error }}
+        v-card(light)
+          v-card-text
+            v-form(@submit="tryToLogin")
+              //- v-text-field(v-if='!options.isLoggingIn' v-model='user.name' light prepend-icon='person' label='Name')
+              v-text-field(v-model='email' light prepend-icon='mdi-email' label='Email' type='email')
+              v-text-field(v-model='password' light prepend-icon='mdi-lock' label='Password' type='password')
+              //- v-checkbox(v-if='options.isLoggingIn' v-model='options.shouldStayLoggedIn' light label='Stay logged in?' hide-details)
+              v-btn(block type='submit') Sign in
+              //- v-btn(v-else block type='submit' @click.prevent='options.isLoggingIn = true') Sign up
+              oauth-button(v-if="integrations && integrations.google" type="google" href="/auth/google")
 </template>
 
 <script lang="ts">
@@ -56,3 +56,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style>
+.login-form {
+  max-width: 500px;
+}
+</style>

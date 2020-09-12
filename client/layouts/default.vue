@@ -1,13 +1,15 @@
 <template lang="pug">
-  div
+  v-app
     navbar
-    nuxt
-    fixed-img(
-      v-if="bodyImages.length > 0"
-      v-for="(img, ind) in bodyImages"
-      :src="img.src"
-      :position="img.position"
-      :key="ind")
+    v-main
+      v-container(fluid)
+        nuxt
+        fixed-img(
+          v-if="bodyImages.length > 0"
+          v-for="(img, ind) in bodyImages"
+          :src="img.src"
+          :position="img.position"
+          :key="ind")
 </template>
 
 <script lang="ts">

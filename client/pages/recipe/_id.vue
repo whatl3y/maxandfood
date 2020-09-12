@@ -1,37 +1,42 @@
 <template lang="pug">
-  div.container.container-sm
-    div.alert.alert-danger(v-if="!recipe")
-      | Uh oh, we didn't find the recipe!
-    template(v-else)
-      h1.mt-0.mb-4.align-middle.row.flex-middle
-        //- nuxt-link.mr-2(v-if="user" :to="`/admin/recipe/${recipe.id}`")
-        //-   button.btn-warning-outline.btn-small
-        //-     i.fa.fa-edit
-        img.col.px-0(
-          v-if="recipe.recipe_ingredients.length > 0"
-          :src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`"
-          style="max-height: 120px;")
-        div.col.col-fill {{ recipe.title }}
+  v-container(fill-height)
+    v-row(align-content="center" justify-content="center")
+      v-col(offset-md="2" md="8")
+        v-alert(v-if="!recipe" type="error")
+          | Uh oh, we didn't find the recipe!
+        
+        template(v-else)
+          h1
+            v-row(align="center")
+              v-col(cols="2" v-if="recipe.recipe_ingredients.length > 0")
+                v-img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
+              v-col {{ recipe.title }}
 
-      div.narrative.mb-4(v-if="recipe.narrative")
-        div(v-html="recipe.narrative")
+          div.narrative.mb-4(v-if="recipe.narrative")
+            div(v-html="recipe.narrative")
 
-      div.row.mb-0.small-gutters
-        div.col.md-7.mb-4
-          images-previewer(:images="recipeImages")
-        div.col.md-5.mb-4.text-secondary(v-if="recipe.recipe_ingredients.length > 0")
-          h5.mt-0.mb-2 #[i.fa.fa-pepper-hot] Ingredients
-          div.p-2
-            small
-              ul.pl-4.my-0
+          v-row
+            v-col.mb-4(md="7")
+              images-previewer(:images="recipeImages")
+            v-col.mb-4(md="5")
+              h5.mb-2 #[i.fa.fa-pepper-hot] Ingredients
+              //- v-list
+              //-   v-list-item-group
+              //-     v-list-item.mb-2(v-for="(ing, ind) in recipe.recipe_ingredients" :key="ind")
+              //-       | {{ ing.quantity }} {{ ing.measurement }} {{ ing.raw.label }}
+              ul
                 li.mb-3(v-for="ing in recipe.recipe_ingredients")
                   | {{ ing.quantity }} {{ ing.measurement }} {{ ing.raw.label }}
 
-      div.border.px-4.mb-4
-        h2.mt-3 #[i.fa.fa-list-ol] Directions
-        ol.text-large
-          li.mb-2(v-for="dir in recipe.recipe_directions")
-            | {{ dir.description }}
+          v-row(align="center" justify="center")
+            v-col(md="12")
+              v-card
+                v-card-title
+                  h2 #[i.fa.fa-list-ol] Directions
+                v-card-text
+                  ol
+                    li.mb-2(v-for="(dir, ind) in recipe.recipe_directions" :key="ind")
+                      | {{ dir.description }}
 
 </template>
 

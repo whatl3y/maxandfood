@@ -1,86 +1,88 @@
 <template lang="pug">
-  div.container.container-sm
-    h1.text-center Create new recipe!
+  v-container(fill-height)
+    v-row(align-content="center" justify-content="center")
+      v-col(offset-md="2" md="8")
+        h1.text-center Create new recipe!
 
-    div.form-group
-      label(for="recipe-title")
-        h4.mt-3.mb-0 Recipe Title
-      input#recipe-title.input-block(placeholder="Recipe Title" v-model="title")
+        v-text-field(
+          v-model='title'
+          light
+          prepend-icon='mdi-hamburger'
+          label='Recipe Title')
 
-    div.form-group
-    label
-      h4.mt-3.mb-0 Recipe Images
-      div.my-1.row(v-if="images.length > 0")
-        div.col.md-3(v-for="img in images")
-          img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
-      file-uploader(
-        :options="{ acceptedFiles: 'image/*' }"
-        @added="addImage")
+        h2.mt-5 Recipe Images
+        v-row(v-if="images.length > 0" dense align="center" justify="center")
+          v-col(cols="12" md="3" v-for="(img, ind) in images" :key="ind")
+            v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
+        file-uploader(
+          :options="{ acceptedFiles: 'image/*' }"
+          @added="addImage")
 
-    div.form-group
-      label
-        h4.mt-3.mb-0 Timing
-      div.row
-        div.col.md-6
-          div.card
-            div.card-body.background-secondary
-              time-unit(v-model="prepTime" label="Prep time")
-        div.col.md-6
-          div.card
-            div.card-body.background-secondary
-              time-unit(v-model="cookTime" label="Cook time")
-            //- div.row.small-gutters
-            //-   div.col.md-6
-            //-     input#prep-time.input-block(type="number" placeholder="Prep time" v-model="prepTime")
-            //-   div.col.md-6
-            //-     select#prep-time-unit.input-block(v-model="prepTimeUnit")
-            //-       option(v-for="unit in timeUnits" :value="unit") {{ unit }}
+        h2.mt-5 Timing
+        v-row
+          v-col(md="6")
+            v-card
+              v-card-text
+                time-unit(v-model="prepTime" label="Prep time")
+          v-col(md="6")
+            v-card
+              v-card-text
+                time-unit(v-model="cookTime" label="Cook time")
 
-    div.form-group
-      label
-        h4.mt-3.mb-0 Recipe Narrative
-      client-only(placeholder="Loading...")
-        rich-text-editor(v-model="narrative")
+        h2.mt-5 Recipe Narrative
+        client-only(placeholder="Loading...")
+          v-card
+            v-card-text
+              rich-text-editor(v-model="narrative")
 
-    hr.py-4
-    
-    div.form-group
-      label.row.small-gutters.py-0.mt-3
-        h4.float-left.py-0.col.my-0 Recipe Ingredients
-        add-remove.float-left.py-0.col(
-          @add="ingredients.push({quantity: null, measurement: null, description: null, raw: null})"
-          @remove="ingredients.splice(ingredients.length - 1, 1)")
-      div.row.small-gutters.flex-middle(v-for="(ingredient, ind) in ingredients")
-        div.py-1.col.md-1 {{ ind + 1 }}.
-        div.py-1.col.md-2
-          input.input-block(
-            type="number"
-            placeholder="Amount"
-            v-model="ingredient.quantity")
-        div.py-1.col.md-3
-          ingredient-unit(v-model="ingredient.measurement")
-        div.py-1.col.md-5
-          ingredient-finder(v-model="ingredient.raw")
+        v-divider.my-6
 
-    hr.py-4
-    
-    div.form-group
-      label.row.small-gutters.py-0.mt-3
-        h4.float-left.py-0.col.my-0 Recipe Directions
-        add-remove.float-left.py-0.col(
-          @add="directions.push({description: null})"
-          @remove="directions.splice(directions.length - 1, 1)")
-      div.row(v-for="(direction, ind) in directions")
-        div.py-1.col.md-1 {{ ind + 1 }}.
-        div.py-1.col.md-11
-          textarea.input-block(
-            v-model="direction.description"
-            placeholder="Add direction here...")
+        h2.mb-3
+          div.d-flex.align-items-center
+            | Ingredients
+            add-remove.float-left.py-0.col(
+              @add="ingredients.push({quantity: null, measurement: null, description: null, raw: null})"
+              @remove="ingredients.splice(ingredients.length - 1, 1)")
+        v-card.mb-2(v-for="(ingredient, ind) in ingredients" :key="ind")
+          v-card-text
+            v-row(align="center" justify="center")
+              v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
+              v-col.py-0(cols="12" md="2")
+                v-text-field(
+                  v-model='ingredient.quantity'
+                  light
+                  prepend-icon='mdi-number'
+                  label='Amount'
+                  type="number")
+              v-col.py-0(cols="12" md="3")
+                ingredient-unit(v-model="ingredient.measurement")
+              v-col.py-0(cols="12" md="5")
+                ingredient-finder(v-model="ingredient.raw")
 
-    hr.py-4
+        v-divider.my-6
 
-    button.mb-5.btn-large.btn-block.btn-success(@click="saveRecipe") Save
+        h2.mb-3
+          div.d-flex.align-items-center
+            | Directions
+            add-remove.float-left.py-0.col(
+              @add="directions.push({description: null})"
+              @remove="directions.splice(directions.length - 1, 1)")
+        v-card.mb-2(v-for="(direction, ind) in directions" :key="ind")
+          v-card-text
+            v-row(align="center" justify="center")
+              v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
+              v-col.py-0(cols="11")
+                v-textarea.mr-3(
+                  rows="1"
+                  :auto-grow="true"
+                  v-model="direction.description"
+                  placeholder="Add direction here...")
 
+        v-btn.my-10(
+          x-large
+          :block="true"
+          color="success"
+          @click="saveRecipe") Save
 </template>
 
 <script lang="ts">
@@ -96,7 +98,7 @@ export default Vue.extend({
 
   data() {
     const defaultNarrative = `
-        <h3>This is a heading!</h3>
+        <h1>This is a heading!</h1>
         <p>Optionally add whatever you'd like to discuss personally that will show up at the top of the recipe! Leave this section blank if you don't want a narrative.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <ol>

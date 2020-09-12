@@ -1,6 +1,5 @@
 <template lang="pug">
-  div.container
-    h1.text-center All the recipes!
+  h1.text-center All the recipes!
 
 </template>
 

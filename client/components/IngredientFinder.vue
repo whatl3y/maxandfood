@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-select(
+  vue-select(
     placeholder="Search for ingredient..."
     :options="options"
     v-model="ingredient"

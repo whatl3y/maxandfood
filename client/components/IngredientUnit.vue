@@ -1,8 +1,7 @@
 <template lang="pug">
   v-select(
-    placeholder="Unit..."
-    :options="options"
-    :reduce="u => u.label"
+    label="Unit"
+    :items="options"
     v-model="unit")
 </template>
 
@@ -17,21 +16,21 @@ export default Vue.extend({
   data() {
     return {
       options: [
-        { label: 'teaspoon (tsp)', value: 'tsp' },
-        { label: 'tablespoon (tbsp)', value: 'tbsp' },
-        { label: 'fluid ounce (fl oz)', value: 'fl oz' },
-        { label: 'cup', value: 'cup' },
-        { label: 'pint', value: 'pint' },
-        { label: 'quart', value: 'quart' },
-        { label: 'gallon', value: 'gallon' },
-        { label: 'milliliter (ml)', value: 'ml' },
-        { label: 'liter (l)', value: 'l' },
+        { text: 'teaspoon (tsp)', value: 'tsp' },
+        { text: 'tablespoon (tbsp)', value: 'tbsp' },
+        { text: 'fluid ounce (fl oz)', value: 'fl oz' },
+        { text: 'cup', value: 'cup' },
+        { text: 'pint', value: 'pint' },
+        { text: 'quart', value: 'quart' },
+        { text: 'gallon', value: 'gallon' },
+        { text: 'milliliter (ml)', value: 'ml' },
+        { text: 'liter (l)', value: 'l' },
 
-        { label: 'pound (lb)', value: 'lb' },
-        { label: 'ounce (oz)', value: 'oz' },
-        { label: 'milligram (mg)', value: 'mg' },
-        { label: 'gram (g)', value: 'g' },
-        { label: 'kilogram (kg)', value: 'kg' },
+        { text: 'pound (lb)', value: 'lb' },
+        { text: 'ounce (oz)', value: 'oz' },
+        { text: 'milligram (mg)', value: 'mg' },
+        { text: 'gram (g)', value: 'g' },
+        { text: 'kilogram (kg)', value: 'kg' },
       ],
     }
   },
