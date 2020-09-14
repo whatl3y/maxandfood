@@ -66,6 +66,10 @@ export default {
    */
   build: {},
 
+  axios: {
+    baseURL: process.env.URL || 'http://localhost:3000',
+  },
+
   serverMiddleware: ['~/../server/routes/index'],
   srcDir: 'client/',
 }
