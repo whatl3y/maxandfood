@@ -1,4 +1,4 @@
-import Google from '../../passport/Google'
+import Google from '../../passport/google'
 import { Request, Response } from 'express'
 import { newRouter } from '../../express'
 import { Account, AccountImage } from '../../models'
