@@ -17,6 +17,15 @@ module.exports = {
         },
         field: 'account_id',
       },
+      createdBy: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        field: 'created_by',
+      },
       title: {
         type: Sequelize.STRING,
       },

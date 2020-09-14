@@ -10,7 +10,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
-    value: { type: Object, default: () => null },
+    value: { type: String, default: null },
   },
 
   data() {

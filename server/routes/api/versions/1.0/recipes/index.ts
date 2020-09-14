@@ -11,7 +11,21 @@ import {
 export default {
   async all({ req, res }) {
     const { account } = await User.getCurrentUserAndAccount(req.user.id)
-    const recipes = await Recipe.findAll({ where: { accountId: account.id } })
+    const recipes = await Recipe.findAll({
+      where: { accountId: account.id },
+      order: [
+        ['created_at', 'DESC'],
+        [{ model: RecipeImage }, 'ordering', 'ASC'],
+      ],
+      include: [
+        {
+          model: RecipeImage,
+        },
+        {
+          model: User,
+        },
+      ],
+    })
     res.json({ recipes })
   },
 
@@ -20,11 +34,14 @@ export default {
       where: { isLive: true },
       order: [
         ['created_at', 'DESC'],
-        [RecipeImage, 'ordering', 'ASC'],
+        [{ model: RecipeImage }, 'ordering', 'ASC'],
       ],
       include: [
         {
           model: RecipeImage,
+        },
+        {
+          model: User,
         },
       ],
     })
@@ -46,11 +63,14 @@ export default {
           {
             model: RecipeIngredient,
           },
+          {
+            model: User,
+          },
         ],
         order: [
-          [RecipeIngredient, 'ordering', 'ASC'],
-          [RecipeImage, 'ordering', 'ASC'],
-          [RecipeIngredient, 'ordering', 'ASC'],
+          [{ model: RecipeDirection }, 'ordering', 'ASC'],
+          [{ model: RecipeImage }, 'ordering', 'ASC'],
+          [{ model: RecipeIngredient }, 'ordering', 'ASC'],
         ],
       })
       res.json({ recipe })
@@ -67,9 +87,11 @@ export default {
       ingredients,
       directions,
       images,
-      prepTime: { time: prepTime, unit: prepTimeUnits },
-      cookTime: { time: cookTime, unit: cookTimeUnits },
+      prepTime,
+      cookTime,
+      yieldServings,
       narrative,
+      isLive,
     } = req.body
 
     const { user, account } = await User.getCurrentUserAndAccount(req.user.id)
@@ -84,21 +106,25 @@ export default {
     } else {
       recipe = await Recipe.create({
         accountId: account.id,
+        createdBy: user.id,
         title,
-        prepTime,
-        prepTimeUnits,
-        cookTime,
-        cookTimeUnits,
+        prepTime: prepTime && prepTime.time,
+        prepTimeUnits: prepTime && prepTime.units,
+        cookTime: cookTime && cookTime.time,
+        cookTimeUnits: cookTime && cookTime.units,
+        yieldServings,
         narrative,
       })
     }
 
-    recipe.title = title
-    recipe.prepTime = prepTime
-    recipe.prepTimeUnits = prepTimeUnits
-    recipe.cookTime = cookTime
-    recipe.cookTimeUnits = cookTimeUnits
-    recipe.narrative = narrative
+    recipe.title = title || recipe.title
+    recipe.prepTime = (prepTime && prepTime.time) || recipe.prepTime
+    recipe.prepTimeUnits = (prepTime && prepTime.units) || recipe.prepTimeUnits
+    recipe.cookTime = (cookTime && cookTime.time) || recipe.cookTime
+    recipe.cookTimeUnits = (cookTime && cookTime.units) || recipe.cookTimeUnits
+    recipe.yieldServings = yieldServings || recipe.yieldServings
+    recipe.narrative = narrative || recipe.narrative
+    recipe.isLive = typeof isLive === 'boolean' ? isLive : recipe.isLive
     await recipe.save()
 
     await Promise.all([

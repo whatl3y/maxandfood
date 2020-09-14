@@ -27,6 +27,9 @@ const RecipeImage = sequelize.define(
 )
 
 RecipeImage.syncWithRecipe = async (recipeId, images) => {
+  // don't proceed to update id passed in info is not array
+  if (!(images instanceof Array)) return
+
   const imgIds = await Promise.all(
     images.map(async (image, ind) => {
       let img

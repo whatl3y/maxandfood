@@ -17,6 +17,14 @@ const Recipe = sequelize.define(
         key: 'id',
       },
     },
+    createdBy: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
     title: DataTypes.STRING,
     endpoint: DataTypes.STRING,
     isLive: DataTypes.BOOLEAN,
@@ -35,6 +43,7 @@ const Recipe = sequelize.define(
 
 Recipe.associate = (models) => {
   Recipe.belongsTo(models.Account)
+  Recipe.belongsTo(models.User, { foreignKey: 'created_by' })
   Recipe.hasMany(models.RecipeDirection)
   Recipe.hasMany(models.RecipeImage)
   Recipe.hasMany(models.RecipeIngredient)

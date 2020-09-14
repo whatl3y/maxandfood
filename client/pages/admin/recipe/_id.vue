@@ -2,7 +2,7 @@
   v-container(fill-height)
     v-row(align-content="center" justify-content="center")
       v-col(offset-md="2" md="8")
-        h1.text-center Create new recipe!
+        h2.text-h2.text-center.mb-5 {{ id !== 'new' ? `Edit ${title}` : 'Create new recipe!' }}
 
         v-text-field(
           v-model='title'
@@ -10,15 +10,26 @@
           prepend-icon='mdi-hamburger'
           label='Recipe Title')
 
-        h2.mt-5 Recipe Images
-        v-row(v-if="images.length > 0" dense align="center" justify="center")
-          v-col(cols="12" md="3" v-for="(img, ind) in images" :key="ind")
-            v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
+        v-text-field(
+          v-model='yieldServings'
+          light
+          prepend-icon='mdi-alpha-y-box'
+          label='Yield Servings'
+          type='number')
+
+        h3.text-h3.mt-5 Recipe Images
+        v-row(v-if="images.length > 0" align="center" justify="center")
+          v-col(cols="12" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
+            v-card(:elevation="1")
+              v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
+              v-card-actions.d-flex.justify-end
+                v-btn(color="red" fab dark small @click="removeImage(ind)")
+                  v-icon mdi-close
         file-uploader(
           :options="{ acceptedFiles: 'image/*' }"
           @added="addImage")
 
-        h2.mt-5 Timing
+        h3.text-h3.mt-5 Timing
         v-row
           v-col(md="6")
             v-card
@@ -29,7 +40,7 @@
               v-card-text
                 time-unit(v-model="cookTime" label="Cook time")
 
-        h2.mt-5 Recipe Narrative
+        h3.text-h3.mt-5 Recipe Narrative
         client-only(placeholder="Loading...")
           v-card
             v-card-text
@@ -37,13 +48,13 @@
 
         v-divider.my-6
 
-        h2.mb-3
-          div.d-flex.align-items-center
+        h3.text-h3.mb-3
+          div.d-flex.align-center
             | Ingredients
             add-remove.float-left.py-0.col(
               @add="ingredients.push({quantity: null, measurement: null, description: null, raw: null})"
               @remove="ingredients.splice(ingredients.length - 1, 1)")
-        v-card.mb-2(v-for="(ingredient, ind) in ingredients" :key="ind")
+        v-card.mb-2(v-for="(ingredient, ind) in ingredients" elevation="1" :key="`ingredient-${ind}`")
           v-card-text
             v-row(align="center" justify="center")
               v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
@@ -61,13 +72,13 @@
 
         v-divider.my-6
 
-        h2.mb-3
-          div.d-flex.align-items-center
+        h3.text-h3.mb-3
+          div.d-flex.align-center
             | Directions
             add-remove.float-left.py-0.col(
               @add="directions.push({description: null})"
               @remove="directions.splice(directions.length - 1, 1)")
-        v-card.mb-2(v-for="(direction, ind) in directions" :key="ind")
+        v-card.mb-2(v-for="(direction, ind) in directions" elevation="1" :key="`direction-${ind}`")
           v-card-text
             v-row(align="center" justify="center")
               v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
@@ -116,6 +127,7 @@ export default Vue.extend({
       images: [],
       prepTime: { time: null, units: 'minutes' },
       cookTime: { time: null, units: 'minutes' },
+      yieldServings: null,
 
       defaultNarrative,
       narrative: defaultNarrative,
@@ -135,6 +147,10 @@ export default Vue.extend({
       this.images = this.images.concat([imgInfo])
     },
 
+    removeImage(imgInd) {
+      this.images.splice(imgInd, 1)
+    },
+
     async fetchRecipe() {
       try {
         if (this.id === 'new') return
@@ -142,6 +158,7 @@ export default Vue.extend({
         await this.$store.dispatch('getRecipe', this.id)
 
         this.title = this.recipe.title
+        this.yieldServings = this.recipe.yieldServings || this.yieldServings
         this.narrative = this.recipe.narrative || this.narrative
         this.prepTime.time = this.recipe.prepTime || this.prepTime.time
         this.prepTime.units = this.recipe.prepTimeUnits || this.prepTime.units
@@ -170,7 +187,9 @@ export default Vue.extend({
           narrative:
             (this.narrative !== this.defaultNarrative && this.narrative) ||
             null,
+          yieldServings: this.yieldServings,
         })
+        this.$router.push(`/admin/recipes`)
       } catch (err) {}
     },
   },

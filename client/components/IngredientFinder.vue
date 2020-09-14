@@ -43,12 +43,10 @@ export default Vue.extend({
     ingredientSearch: debounce(async function (searchText): Promise<void> {
       if (!searchText || searchText.length === 0) return
       const data = await this.$axios.$get(
-        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dzwAjo4eBbJq9ERLlUGoz0dvUvZDcNnB8ibX5hgr&query=${searchText}`
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dzwAjo4eBbJq9ERLlUGoz0dvUvZDcNnB8ibX5hgr&dataType=SR%20Legacy&query=${searchText}&sortBy=score&sortOrder=desc`
       )
       this.options = data.foods.map((food) => ({
-        label: `${food.description}${
-          food.dataType === 'Branded' ? ` (${food.brandOwner})` : ''
-        }`,
+        label: food.description,
         raw: food,
       }))
     }, 600),

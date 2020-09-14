@@ -9,19 +9,28 @@
                 th #
                 th Recipe
                 th Created
+                th Published?
                 th.text-right Actions
             tbody
               tr(v-for="(recipe, ind) in allRecipes")
                 td {{ ind + 1 }}.
-                td {{ recipe.title }}
+                td
+                  nuxt-link.d-flex.align-center(:to="`/recipe/${recipe.id}`")
+                    v-avatar.mr-2(size="36")
+                      img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
+                    div {{ recipe.title }}
                 td {{ formatDate(recipe.createdAt) }}
+                td
+                  v-switch(
+                    :input-value="recipe.isLive"
+                    @change="toggleLive(recipe)")
                 td.text-right
+                  //- nuxt-link(:to="`/recipe/${recipe.id}`")
+                  //-   v-btn(color="blue" fab dark x-small)
+                  //-     i.fa.fa-link
                   nuxt-link(:to="`/admin/recipe/${recipe.id}`")
-                    v-btn(color="orange" fab dark small)
+                    v-btn(color="orange" fab dark x-small)
                       i.fa.fa-edit
-                  nuxt-link.ml-2(:to="`/recipe/${recipe.id}`")
-                    v-btn(color="blue" fab dark small)
-                      i.fa.fa-link
 </template>
 
 <script lang="ts">
@@ -35,11 +44,20 @@ export default Vue.extend({
     await store.dispatch('getAllRecipes')
   },
 
-  computed: mapState(['allRecipes']),
+  computed: mapState(['s3BucketUrl', 'allRecipes']),
 
   methods: {
     formatDate(str: Date | string) {
-      return moment(str).format('YYYY-MM-DD h:mma')
+      return moment(str).format('MM/DD/YYYY h:mma')
+    },
+
+    async toggleLive(recipe) {
+      try {
+        await this.$axios.$post('/api/1.0/recipes/save', {
+          id: recipe.id,
+          isLive: !recipe.isLive,
+        })
+      } catch (err) {}
     },
   },
 })

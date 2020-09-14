@@ -26,6 +26,8 @@ export default function GooglePassportStrategy() {
     ) {
       try {
         const emailAddress = profile.emails[0].value.toLowerCase()
+        const avatarUrl =
+          profile.photos && profile.photos[0] && profile.photos[0].value
 
         const [user] = await User.findOrCreate({
           where: {
@@ -44,6 +46,7 @@ export default function GooglePassportStrategy() {
 
         user.firstName = user.firstName || profile.name.givenName
         user.lastName = user.lastName || profile.name.familyName
+        user.avatarUrl = avatarUrl || user.avatarUrl
         user.lastLogin = new Date()
 
         integration.uid = profile.id

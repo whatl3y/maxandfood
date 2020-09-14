@@ -26,6 +26,9 @@ const RecipeDirection = sequelize.define(
 )
 
 RecipeDirection.syncWithRecipe = async (recipeId, directions) => {
+  // don't proceed to update id passed in info is not array
+  if (!(directions instanceof Array)) return
+
   const dirIds = await Promise.all(
     directions.map(async (direction, ind) => {
       let dir

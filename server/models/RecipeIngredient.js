@@ -29,6 +29,9 @@ const RecipeIngredient = sequelize.define(
 )
 
 RecipeIngredient.syncWithRecipe = async (recipeId, ingredients) => {
+  // don't proceed to update id passed in info is not array
+  if (!(ingredients instanceof Array)) return
+
   const ids = await Promise.all(
     ingredients.map(async (ingredient, ind) => {
       let ingre

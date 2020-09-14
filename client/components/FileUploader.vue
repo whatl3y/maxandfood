@@ -20,7 +20,7 @@ export default {
       return {
         url: this.url || '/upload/image',
         maxFilesize: 20480, // 20GB
-        parallelUploads: 4,
+        parallelUploads: 12,
         thumbnailHeight: 80,
         thumbnailWidth: 80,
         timeout: 600000, // 600s, 10min
