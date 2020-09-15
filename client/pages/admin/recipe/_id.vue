@@ -19,7 +19,7 @@
 
         h3.text-h3.mt-5 Recipe Images
         v-row(v-if="images.length > 0" align="center" justify="center")
-          v-col(cols="12" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
+          v-col(cols="6" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
             v-card(:elevation="1")
               v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
               v-card-actions.d-flex.justify-end

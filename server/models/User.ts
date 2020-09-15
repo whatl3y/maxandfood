@@ -1,5 +1,5 @@
 import assert from 'assert'
-import crypto from 'crypto'
+// import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import JWT from 'jsonwebtoken'
 import { Account, AccountUser } from '.'
@@ -98,12 +98,16 @@ User.getCurrentUserAndAccount = async (userId) => {
 }
 
 User.beforeCreate(async (user: typeof User) => {
+  const account = await Account.create()
+  user.current_account_id = account.id
   user.password = user.password ? await bcrypt.hash(user.password, 10) : null
 })
 
 User.afterCreate(async (user: typeof User) => {
-  const account = await Account.create()
-  await AccountUser.create({ accountId: account.id, userId: user.id })
+  await AccountUser.create({
+    accountId: user.current_account_id,
+    userId: user.id,
+  })
 })
 
 User.associate = (models: any) => {

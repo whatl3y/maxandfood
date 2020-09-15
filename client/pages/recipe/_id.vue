@@ -19,19 +19,19 @@
           v-card.mb-4.darken-4(color="indigo" dark)
             v-card-title
               v-row(align="center" justify="center")
-                v-col.d-flex.align-center.flex-column.py-0(md="4")
+                v-col.d-flex.align-center.flex-column.py-0(cols="6" md="4")
                   div.text-uppercase prep time
                   v-avatar.accent-1(color="indigo" size="72")
                     div
                       h3.text-h3(style="line-height: 2rem;") {{ recipe.prepTime }}
                       div.text-caption.font-weight-light {{ recipe.prepTimeUnits }}
-                v-col.d-flex.align-center.flex-column.py-0(md="4")
+                v-col.d-flex.align-center.flex-column.py-0(cols="6" md="4")
                   div.text-uppercase cook time
                   v-avatar.accent-1(color="indigo" size="72")
                     div
                       h3.text-h3(style="line-height: 2rem;") {{ recipe.cookTime }}
                       div.text-caption.font-weight-light {{ recipe.cookTimeUnits }}
-                v-col.d-flex.align-center.flex-column.py-0(md="4")
+                v-col.d-flex.align-center.flex-column.py-0(cols="6" md="4")
                   div.text-uppercase total time
                   v-avatar.accent-1(color="indigo" size="72")
                     div
@@ -60,8 +60,8 @@
                     :key="`img-carousel-${ind}`"
                     :src="`${s3BucketUrl}/${img}`")
                 v-card-text
-                  v-row(justify="center")
-                    v-col(md="6")
+                  v-row(align="center" justify="center")
+                    v-col.mb-2(cols="12" md="6")
                       h5.text-h5.mb-2 #[i.fa.fa-pepper-hot] Ingredients
                       //- v-list
                       //-   v-list-item-group
@@ -70,7 +70,7 @@
                       ul
                         li.mb-3(v-for="ing in recipe.recipe_ingredients")
                           | {{ ing.quantity }} {{ ing.measurement }} {{ ing.raw.label }}
-                    v-col(md="6")
+                    v-col.mb-2(cols="12" md="6")
                       h5.text-h5.mb-2 #[i.fa.fa-list-ol] Directions
                       ol
                         li.mb-2(v-for="(dir, ind) in recipe.recipe_directions" :key="ind")
