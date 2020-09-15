@@ -97,17 +97,27 @@ User.getCurrentUserAndAccount = async (userId) => {
   return { user, account }
 }
 
+User.beforeValidate(async (user: typeof User, options: any) => {
+  if (user.isNewRecord && !user.currentAccountId) {
+    const account = await Account.create({ transaction: options.transaction })
+    user.currentAccountId = account.id
+  }
+})
+
 User.beforeCreate(async (user: typeof User) => {
-  const account = await Account.create()
-  user.current_account_id = account.id
   user.password = user.password ? await bcrypt.hash(user.password, 10) : null
 })
 
-User.afterCreate(async (user: typeof User) => {
-  await AccountUser.create({
-    accountId: user.current_account_id,
-    userId: user.id,
-  })
+User.afterCreate(async (user: typeof User, options: any) => {
+  await AccountUser.create(
+    {
+      accountId: user.currentAccountId,
+      userId: user.id,
+    },
+    {
+      transaction: options.transaction,
+    }
+  )
 })
 
 User.associate = (models: any) => {

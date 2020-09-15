@@ -6,7 +6,7 @@
           | Uh oh, we didn't find the recipe!
         
         template(v-else)
-          h2.text-h2
+          h3.text-h3
             div.d-flex.align-center
               div.mr-2(v-if="recipe.recipe_ingredients.length > 0")
                 v-avatar(size="62")
@@ -54,7 +54,7 @@
                         div.ml-auto.d-flex.align-end(v-if="recipe.yieldServings")
                           h4.text-h4.mr-1 {{ recipe.yieldServings }}
                           small.text--secondary servings
-                v-carousel
+                v-carousel(:cycle="true")
                   v-carousel-item(
                     v-for="(img, ind) in recipeImages"
                     :key="`img-carousel-${ind}`"

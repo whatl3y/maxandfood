@@ -11,7 +11,7 @@ type IState = {
 }
 
 const state = (): IState => ({
-  s3BucketUrl: 'http://public.maxandfood.com',
+  s3BucketUrl: 'https://public.maxandfood.com',
   bodyImages: [],
 
   integrations: null,

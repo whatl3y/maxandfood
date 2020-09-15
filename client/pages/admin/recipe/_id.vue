@@ -2,7 +2,7 @@
   v-container(fill-height)
     v-row(align-content="center" justify-content="center")
       v-col(offset-md="2" md="8")
-        h2.text-h2.text-center.mb-5 {{ id !== 'new' ? `Edit ${title}` : 'Create new recipe!' }}
+        h3.text-h3.text-center.mb-5 {{ id !== 'new' ? `Edit ${title}` : 'Create new recipe!' }}
 
         v-text-field(
           v-model='title'
