@@ -10,7 +10,7 @@
           prepend-icon='mdi-hamburger'
           label='Recipe Title')
 
-        h3.text-h3.mt-5 Narrative
+        h3.text-h3.mt-5 Recipe Summary
         client-only(placeholder="Loading...")
           v-card
             v-card-text
@@ -30,11 +30,11 @@
 
         h3.text-h3.mt-5 Timing
         v-row
-          v-col(md="6")
+          v-col(cols="12" md="6")
             v-card
               v-card-text
                 time-unit(v-model="prepTime" label="Prep time")
-          v-col(md="6")
+          v-col(cols="12" md="6")
             v-card
               v-card-text
                 time-unit(v-model="cookTime" label="Cook time")
@@ -63,17 +63,21 @@
           :key="`ingredient-${ind}`")
             v-card-text
               v-row(align="center" justify="center")
-                v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
-                v-col.py-0(cols="12" md="2")
+                //- v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
+                v-col.py-0(cols="12" md="4")
                   v-text-field(
                     v-model='ingredient.quantity'
                     light
-                    prepend-icon='mdi-number'
                     label='Amount'
                     type="number")
-                v-col.py-0(cols="12" md="3")
+                v-col.py-0(cols="12" md="8")
                   ingredient-unit(v-model="ingredient.measurement")
-                v-col.py-0(cols="12" md="5")
+                v-col.py-0(cols="12" md="6")
+                  v-text-field(
+                    v-model='ingredient.description'
+                    light
+                    label='Ingredient Description')
+                v-col.py-0(cols="12" md="6")
                   ingredient-finder(v-model="ingredient.raw")
 
         v-divider.my-6
@@ -204,7 +208,14 @@ export default Vue.extend({
           yieldServings: this.yieldServings,
         })
         this.$router.push(`/admin/recipes`)
-      } catch (err) {}
+      } catch (err) {
+        const baseErr =
+          err.response &&
+          err.response.data &&
+          err.response.data.error &&
+          err.response.data.error.message
+        this.$store.commit('SET_SNACKBAR_TEXT', baseErr)
+      }
     },
   },
 

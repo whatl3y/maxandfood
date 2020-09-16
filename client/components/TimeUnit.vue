@@ -5,7 +5,8 @@
         v-model='time'
         light
         prepend-icon='mdi-clock'
-        :label='label')
+        :label='label'
+        type="number")
     v-col(cols="12")
       v-select(
         label="Time units"

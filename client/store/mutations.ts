@@ -25,6 +25,15 @@ const mutations: MutationTree<RootState> = {
   SET_HOME_RECIPES(state, recipes: any) {
     state.homeRecipes = recipes
   },
+
+  SET_SNACKBAR_SHOW(state, show) {
+    state.snackbar.show = show
+  },
+
+  SET_SNACKBAR_TEXT(state, text) {
+    state.snackbar.text = text
+    state.snackbar.show = true
+  },
 }
 
 export default mutations

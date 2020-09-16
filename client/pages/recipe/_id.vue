@@ -66,10 +66,10 @@
                       //- v-list
                       //-   v-list-item-group
                       //-     v-list-item.mb-2(v-for="(ing, ind) in recipe.recipe_ingredients" :key="ind")
-                      //-       | {{ ing.quantity }} {{ ing.measurement }} {{ ing.raw.label }}
+                      //-       | {{ ing.quantity }} {{ ing.measurement }} {{ ing.description || ing.raw.label }}
                       ul
                         li.mb-3(v-for="ing in recipe.recipe_ingredients")
-                          | {{ ing.quantity }} {{ ing.measurement }} {{ ing.raw.label }}
+                          | {{ ing.quantity }} {{ ing.measurement }} {{ ing.description || ing.raw.label }}
                     v-col.mb-2(cols="12" md="6")
                       h5.text-h5.mb-2 #[i.fa.fa-list-ol] Directions
                       ol

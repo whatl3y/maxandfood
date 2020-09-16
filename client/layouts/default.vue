@@ -10,6 +10,7 @@
           :src="img.src"
           :position="img.position"
           :key="ind")
+      snackbar
 </template>
 
 <script lang="ts">

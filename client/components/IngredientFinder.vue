@@ -1,6 +1,6 @@
 <template lang="pug">
   vue-select(
-    placeholder="Search for ingredient..."
+    placeholder="Search for ingredient (optional: for calorie calculations)..."
     :filterBy="() => true"
     :options="options"
     v-model="ingredient"

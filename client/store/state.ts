@@ -8,6 +8,8 @@ type IState = {
   homeRecipes: any[]
   allRecipes: any[]
   recipe: any
+
+  snackbar: any
 }
 
 const state = (): IState => ({
@@ -20,6 +22,11 @@ const state = (): IState => ({
   homeRecipes: [],
   allRecipes: [],
   recipe: null,
+
+  snackbar: {
+    show: false,
+    text: '',
+  },
 })
 
 export type RootState = ReturnType<typeof state>
