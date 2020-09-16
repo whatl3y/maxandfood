@@ -10,14 +10,13 @@
           prepend-icon='mdi-hamburger'
           label='Recipe Title')
 
-        v-text-field(
-          v-model='yieldServings'
-          light
-          prepend-icon='mdi-alpha-y-box'
-          label='Yield Servings'
-          type='number')
+        h3.text-h3.mt-5 Narrative
+        client-only(placeholder="Loading...")
+          v-card
+            v-card-text
+              rich-text-editor(v-model="narrative")
 
-        h3.text-h3.mt-5 Recipe Images
+        h3.text-h3.mt-5 Images
         v-row(v-if="images.length > 0" align="center" justify="center")
           v-col(cols="6" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
             v-card(:elevation="1")
@@ -40,13 +39,14 @@
               v-card-text
                 time-unit(v-model="cookTime" label="Cook time")
 
-        h3.text-h3.mt-5 Recipe Narrative
-        client-only(placeholder="Loading...")
-          v-card
-            v-card-text
-              rich-text-editor(v-model="narrative")
-
         v-divider.my-6
+
+        v-text-field(
+          v-model='yieldServings'
+          light
+          prepend-icon='mdi-alpha-y-box'
+          label='Yield Servings'
+          type='number')
 
         h3.text-h3.mb-3
           div.d-flex.align-center
@@ -54,21 +54,27 @@
             add-remove.float-left.py-0.col(
               @add="ingredients.push({quantity: null, measurement: null, description: null, raw: null})"
               @remove="ingredients.splice(ingredients.length - 1, 1)")
-        v-card.mb-2(v-for="(ingredient, ind) in ingredients" elevation="1" :key="`ingredient-${ind}`")
-          v-card-text
-            v-row(align="center" justify="center")
-              v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
-              v-col.py-0(cols="12" md="2")
-                v-text-field(
-                  v-model='ingredient.quantity'
-                  light
-                  prepend-icon='mdi-number'
-                  label='Amount'
-                  type="number")
-              v-col.py-0(cols="12" md="3")
-                ingredient-unit(v-model="ingredient.measurement")
-              v-col.py-0(cols="12" md="5")
-                ingredient-finder(v-model="ingredient.raw")
+        v-alert(color="yellow" v-if="ingredients.length === 0")
+          | Add ingredients by clicking the plus sign above!
+        v-card.mb-2(
+          v-else
+          v-for="(ingredient, ind) in ingredients"
+          elevation="1"
+          :key="`ingredient-${ind}`")
+            v-card-text
+              v-row(align="center" justify="center")
+                v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
+                v-col.py-0(cols="12" md="2")
+                  v-text-field(
+                    v-model='ingredient.quantity'
+                    light
+                    prepend-icon='mdi-number'
+                    label='Amount'
+                    type="number")
+                v-col.py-0(cols="12" md="3")
+                  ingredient-unit(v-model="ingredient.measurement")
+                v-col.py-0(cols="12" md="5")
+                  ingredient-finder(v-model="ingredient.raw")
 
         v-divider.my-6
 
@@ -78,16 +84,22 @@
             add-remove.float-left.py-0.col(
               @add="directions.push({description: null})"
               @remove="directions.splice(directions.length - 1, 1)")
-        v-card.mb-2(v-for="(direction, ind) in directions" elevation="1" :key="`direction-${ind}`")
-          v-card-text
-            v-row(align="center" justify="center")
-              v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
-              v-col.py-0(cols="11")
-                v-textarea.mr-3(
-                  rows="1"
-                  :auto-grow="true"
-                  v-model="direction.description"
-                  placeholder="Add direction here...")
+        v-alert(color="yellow" v-if="directions.length === 0")
+          | Add directions by clicking the plus sign above!
+        v-card.mb-2(
+          v-else
+          v-for="(direction, ind) in directions"
+          elevation="1"
+          :key="`direction-${ind}`")
+            v-card-text
+              v-row(align="center" justify="center")
+                v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
+                v-col.py-0(cols="11")
+                  v-textarea.mr-3(
+                    rows="1"
+                    :auto-grow="true"
+                    v-model="direction.description"
+                    placeholder="Add direction here...")
 
         v-btn.my-10(
           x-large
@@ -109,7 +121,7 @@ export default Vue.extend({
 
   data() {
     const defaultNarrative = `
-        <h1>This is a heading!</h1>
+        <h1>This is some free text you can add to your post!</h1>
         <p>Optionally add whatever you'd like to discuss personally that will show up at the top of the recipe! Leave this section blank if you don't want a narrative.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <ol>
@@ -121,9 +133,11 @@ export default Vue.extend({
     return {
       title: null,
       ingredients: [
-        { quantity: null, measurement: null, description: null, raw: null },
+        // { quantity: null, measurement: null, description: null, raw: null },
       ],
-      directions: [{ description: null }],
+      directions: [
+        // { description: null }
+      ],
       images: [],
       prepTime: { time: null, units: 'minutes' },
       cookTime: { time: null, units: 'minutes' },

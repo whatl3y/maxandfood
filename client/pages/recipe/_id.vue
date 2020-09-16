@@ -8,7 +8,7 @@
         template(v-else)
           h3.text-h3
             div.d-flex.align-center
-              div.mr-2(v-if="recipe.recipe_ingredients.length > 0")
+              div.mr-2(v-if="recipe.recipe_images.length > 0")
                 v-avatar(size="62")
                   img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
               div {{ recipe.title }}
@@ -16,7 +16,7 @@
           div.narrative.my-4(v-if="recipe.narrative")
             div(v-html="recipe.narrative")
 
-          v-card.mb-4.darken-4(color="indigo" dark)
+          v-card.mb-4.darken-4(v-if="recipe.prepTime || recipe.cookTime" color="indigo" dark)
             v-card-title
               v-row(align="center" justify="center")
                 v-col.d-flex.align-center.flex-column.py-0(cols="6" md="4")
@@ -38,7 +38,7 @@
                       h3.text-h3(style="line-height: 2rem;") {{ totalTime }}
                       div.text-caption.font-weight-light {{ totalTimeUnits }}
 
-          v-row
+          v-row(v-if="shouldShowImageAndSpecCard")
             v-col.mb-4(md="12")
               //- images-previewer(:images="recipeImages")
               v-card(elevation="1")
@@ -59,7 +59,7 @@
                     v-for="(img, ind) in recipeImages"
                     :key="`img-carousel-${ind}`"
                     :src="`${s3BucketUrl}/${img}`")
-                v-card-text
+                v-card-text(v-if="recipe.recipe_ingredients.length > 0 || recipe.recipe_directions.length > 0")
                   v-row(align="center" justify="center")
                     v-col.mb-2(cols="12" md="6")
                       h5.text-h5.mb-2 #[i.fa.fa-pepper-hot] Ingredients
@@ -112,6 +112,14 @@ export default Vue.extend({
 
     totalTimeUnits() {
       return this.recipe.prepTimeUnits
+    },
+
+    shouldShowImageAndSpecCard() {
+      return (
+        this.recipeImages.length > 0 ||
+        this.recipe.recipe_ingredients.length > 0 ||
+        this.recipe.recipe_directions.length > 0
+      )
     },
   },
 

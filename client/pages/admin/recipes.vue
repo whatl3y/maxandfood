@@ -16,7 +16,7 @@
                 td {{ ind + 1 }}.
                 td
                   nuxt-link.d-flex.align-center(:to="`/recipe/${recipe.id}`")
-                    v-avatar.mr-2(size="36")
+                    v-avatar.mr-2(v-if="recipe.recipe_images.length > 0" size="36")
                       img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
                     div {{ recipe.title }}
                 td {{ formatDate(recipe.createdAt) }}

@@ -55,7 +55,11 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxtjs/vuetify', '@nuxt/typescript-build'],
+  buildModules: [
+    '@nuxt/typescript-build',
+    '@nuxtjs/google-analytics',
+    '@nuxtjs/vuetify',
+  ],
   /*
    ** Nuxt.js modules
    */
@@ -72,6 +76,10 @@ export default {
   publicRuntimeConfig: {
     axios: {
       baseURL: process.env.URL || 'http://localhost:3000',
+    },
+
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID,
     },
   },
 }

@@ -1,6 +1,7 @@
 <template lang="pug">
   vue-select(
     placeholder="Search for ingredient..."
+    :filterBy="() => true"
     :options="options"
     v-model="ingredient"
     @search="ingredientSearch")
@@ -13,6 +14,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import { debounce } from '../helpers/Utils'
+
+// NOTE: see filterBy option in vue-select, prevents
+// results from being filtered since they're filtered
+// based on scoring from the usda.gov website
+// https://vue-select.org/api/props.html#filterby
 
 export default Vue.extend({
   props: {
@@ -43,7 +49,7 @@ export default Vue.extend({
     ingredientSearch: debounce(async function (searchText): Promise<void> {
       if (!searchText || searchText.length === 0) return
       const data = await this.$axios.$get(
-        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dzwAjo4eBbJq9ERLlUGoz0dvUvZDcNnB8ibX5hgr&dataType=SR%20Legacy&query=${searchText}&sortBy=score&sortOrder=desc`
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dzwAjo4eBbJq9ERLlUGoz0dvUvZDcNnB8ibX5hgr&dataType=SR%20Legacy&query=${searchText}&sortBy=score&sortOrder=desc&pageSize=100`
       )
       this.options = data.foods.map((food) => ({
         label: food.description,
