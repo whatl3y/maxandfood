@@ -50,7 +50,7 @@
                       div.d-flex
                         div
                           v-list-item-title {{ recipe.user.firstName }} {{ recipe.user.lastName }}
-                          v-list-item-subtitle {{ formatDate(recipe.createdAt) }}
+                          v-list-item-subtitle {{ $dayjs.formatDateTime(recipe.createdAt) }}
                         div.ml-auto.d-flex.align-end(v-if="recipe.yieldServings")
                           h4.text-h4.mr-1 {{ recipe.yieldServings }}
                           small.text--secondary servings
@@ -80,7 +80,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import moment from 'moment'
 import { mapState } from 'vuex'
 import { Context } from '@nuxt/types'
 
@@ -120,12 +119,6 @@ export default Vue.extend({
         this.recipe.recipe_ingredients.length > 0 ||
         this.recipe.recipe_directions.length > 0
       )
-    },
-  },
-
-  methods: {
-    formatDate(str: Date | string) {
-      return moment(str).format('MM/DD/YYYY h:mma')
     },
   },
 })

@@ -14,6 +14,21 @@ const mutations: MutationTree<RootState> = {
     state.user = user
   },
 
+  SET_ACCOUNT(state, account: any) {
+    state.account = account
+  },
+
+  SET_ACCOUNT_FIELD(state, { key, value }) {
+    state.account = {
+      ...state.account,
+      [key]: value,
+    }
+  },
+
+  SET_ACCOUNT_IMAGES(state, images: any) {
+    state.accountImages = images
+  },
+
   SET_ALL_RECIPES(state, recipes: any) {
     state.allRecipes = recipes
   },

@@ -4,9 +4,10 @@
       v-col(
         v-for="(recipe, ind) in homeRecipes"
         :key="ind"
+        cols="6"
         md="4"
         lg="3")
-          nuxt-link(:to="`/recipe/${recipe.id}`")
+          nuxt-link(:to="`/p/${recipe.id}`")
             v-card
               v-img.white--text.align-end(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
               v-list(two-line)
@@ -19,12 +20,11 @@
                       div.d-flex.align-start
                         div {{ recipe.user.firstName }} {{ recipe.user.lastName }}
                         div.ml-auto.text-caption.font-weight-thin
-                          small {{ formatDate(recipe.createdAt) }}
+                          small {{ $dayjs.formatDate(recipe.createdAt) }}
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import moment from 'moment'
 import { mapState } from 'vuex'
 import { Context } from '@nuxt/types'
 
@@ -34,11 +34,5 @@ export default Vue.extend({
   },
 
   computed: mapState(['s3BucketUrl', 'homeRecipes']),
-
-  methods: {
-    formatDate(str: Date | string) {
-      return moment(str).format('MM/DD/YYYY')
-    },
-  },
 })
 </script>

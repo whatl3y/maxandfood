@@ -34,7 +34,9 @@
           i.fa.fa-undo
         //- v-btn.mr-1(fab dark small color="black" @click='commands.redo')
         //-   i.fa.fa-redo
-    editor-content.px-4.editor__content(:editor='editor')
+    v-card.editor-card
+      v-card-text
+        editor-content.editor__content(:editor='editor')
 
 </template>
 
@@ -58,11 +60,12 @@ import {
   Strike,
   Underline,
   History,
+  Placeholder,
 } from 'tiptap-extensions'
 
 export default {
   props: {
-    value: { type: String, required: true },
+    value: { type: String, default: null },
   },
 
   watch: {
@@ -107,6 +110,13 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Placeholder({
+            emptyEditorClass: 'is-editor-empty',
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: `Add some text here...`,
+            showOnlyWhenEditable: true,
+            showOnlyCurrent: true,
+          }),
         ],
         content: this.value,
       }),
@@ -118,13 +128,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .menubar__button {
   padding: 0.25rem;
   margin-right: 0.25rem;
 }
 
-li > p:first-child {
-  display: inline;
+li {
+  > p:first-child {
+    display: inline;
+  }
+}
+
+.editor-card {
+  p {
+    margin-bottom: 0px;
+  }
 }
 </style>

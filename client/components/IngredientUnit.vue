@@ -1,6 +1,7 @@
 <template lang="pug">
   v-select(
     label="Unit"
+    clearable
     :items="options"
     v-model="unit")
 </template>

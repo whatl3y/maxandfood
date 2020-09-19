@@ -9,6 +9,7 @@ const Account = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
+    name: DataTypes.STRING,
     planType: { type: DataTypes.STRING, defaultValue: 'basic' },
     domainName: DataTypes.STRING,
     isEnabled: DataTypes.BOOLEAN,

@@ -1,11 +1,11 @@
 import fs from 'fs'
 import formidable from 'express-formidable'
 import { Request, Response } from 'express'
-import { newRouter } from '../../express'
-import { uploadObject, getFileName } from '../../aws'
-import { resizeImage, imageToSquare } from '../../images'
-import { AccountImage, RecipeImage } from '../../models'
-import { jwtAuthMiddleware } from '../api'
+import { newRouter } from '../../../express'
+import { uploadObject, getFileName } from '../../../aws'
+import { resizeImage, imageToSquare } from '../../../images'
+// import { AccountImage, RecipeImage } from '../../../models'
+import { jwtAuthMiddleware } from '../../api'
 
 const router = newRouter()
 

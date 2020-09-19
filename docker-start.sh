@@ -1,3 +1,5 @@
+#!/bin/bash
+
 npm run migrate
 
 if [ "$NODE_ENV" = "development" ]; then

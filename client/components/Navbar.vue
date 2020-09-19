@@ -9,7 +9,7 @@
         span.float-left max &amp; food
     v-spacer
     template(v-if="user")
-      nuxt-link(to="/admin/recipes")
+      nuxt-link(to="/admin/settings/recipes")
         v-avatar.mr-2(size="36")
           img(
             v-if="user && user.avatarUrl"
@@ -18,7 +18,7 @@
           v-icon(v-else dark) mdi-account-circle
         //- v-btn(icon)
         //-   v-icon mdi-food-fork-drink
-      nuxt-link(to="/admin/recipe/new" title="Add recipe!")
+      nuxt-link(to="/admin/post/new" title="Add recipe!")
         v-btn(icon color="green")
           v-icon mdi-plus-circle-outline
       a(href="/logout" title="Logout")

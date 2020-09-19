@@ -46,7 +46,12 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/dropzone.js', '@/plugins/vue-select.js'],
+  plugins: [
+    '@/plugins/dayjs.js',
+    '@/plugins/draggable.js',
+    '@/plugins/dropzone.js',
+    '@/plugins/vue-select.js',
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -76,6 +81,7 @@ export default {
   publicRuntimeConfig: {
     axios: {
       baseURL: process.env.URL || 'http://localhost:3000',
+      debug: process.env.DEBUG,
     },
 
     googleAnalytics: {

@@ -11,19 +11,26 @@
           label='Recipe Title')
 
         h3.text-h3.mt-5 Recipe Summary
+        div.my-2
+          | Optionally add whatever you'd like to discuss personally that
+          | will show up at the top of the recipe! Leave this section
+          | blank if you don't want a summary.
         client-only(placeholder="Loading...")
-          v-card
-            v-card-text
-              rich-text-editor(v-model="narrative")
+          rich-text-editor(v-model="narrative")
 
         h3.text-h3.mt-5 Images
-        v-row(v-if="images.length > 0" align="center" justify="center")
-          v-col(cols="6" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
-            v-card(:elevation="1")
-              v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
-              v-card-actions.d-flex.justify-end
-                v-btn(color="red" fab dark small @click="removeImage(ind)")
-                  v-icon mdi-close
+        draggable(
+          v-if="images.length > 0"
+          v-model="images"
+          tag="v-row"
+          align="center"
+          justify="center")
+            v-col(cols="6" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
+              v-card(:elevation="1")
+                v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
+                v-card-actions.d-flex.justify-end
+                  v-btn(color="red" fab dark small @click="removeImage(ind)")
+                    v-icon mdi-close
         file-uploader(
           :options="{ acceptedFiles: 'image/*' }"
           @added="addImage")
@@ -56,29 +63,29 @@
               @remove="ingredients.splice(ingredients.length - 1, 1)")
         v-alert(color="yellow" v-if="ingredients.length === 0")
           | Add ingredients by clicking the plus sign above!
-        v-card.mb-2(
-          v-else
-          v-for="(ingredient, ind) in ingredients"
-          elevation="1"
-          :key="`ingredient-${ind}`")
-            v-card-text
-              v-row(align="center" justify="center")
-                //- v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
-                v-col.py-0(cols="12" md="4")
-                  v-text-field(
-                    v-model='ingredient.quantity'
-                    light
-                    label='Amount'
-                    type="number")
-                v-col.py-0(cols="12" md="8")
-                  ingredient-unit(v-model="ingredient.measurement")
-                v-col.py-0(cols="12" md="6")
-                  v-text-field(
-                    v-model='ingredient.description'
-                    light
-                    label='Ingredient Description')
-                v-col.py-0(cols="12" md="6")
-                  ingredient-finder(v-model="ingredient.raw")
+        draggable(v-else v-model="ingredients")
+          v-card.mb-2(
+            v-for="(ingredient, ind) in ingredients"
+            elevation="1"
+            :key="`ingredient-${ind}`")
+              v-card-text
+                v-row(align="center" justify="center")
+                  //- v-col.text-right.py-0(cols="12" md="1") {{ ind + 1 }}.
+                  v-col.py-0(cols="12" md="6")
+                    v-text-field(
+                      v-model='ingredient.quantity'
+                      light
+                      label='Amount'
+                      type="number")
+                  v-col.py-0(cols="12" md="6")
+                    ingredient-unit(v-model="ingredient.measurement")
+                  v-col.py-0(cols="12" md="6")
+                    v-text-field(
+                      v-model='ingredient.description'
+                      light
+                      label='Ingredient Description')
+                  v-col.py-0(cols="12" md="6")
+                    ingredient-finder(v-model="ingredient.raw")
 
         v-divider.my-6
 
@@ -90,20 +97,20 @@
               @remove="directions.splice(directions.length - 1, 1)")
         v-alert(color="yellow" v-if="directions.length === 0")
           | Add directions by clicking the plus sign above!
-        v-card.mb-2(
-          v-else
-          v-for="(direction, ind) in directions"
-          elevation="1"
-          :key="`direction-${ind}`")
-            v-card-text
-              v-row(align="center" justify="center")
-                v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
-                v-col.py-0(cols="11")
-                  v-textarea.mr-3(
-                    rows="1"
-                    :auto-grow="true"
-                    v-model="direction.description"
-                    placeholder="Add direction here...")
+        draggable(v-else v-model="directions")
+          v-card.mb-2(
+            v-for="(direction, ind) in directions"
+            elevation="1"
+            :key="`direction-${ind}`")
+              v-card-text
+                v-row(align="center" justify="center")
+                  v-col.text-right.py-0(cols="1") {{ ind + 1 }}.
+                  v-col.py-0(cols="11")
+                    v-textarea.mr-3(
+                      rows="1"
+                      :auto-grow="true"
+                      v-model="direction.description"
+                      placeholder="Add direction here...")
 
         v-btn.my-10(
           x-large
@@ -124,16 +131,6 @@ export default Vue.extend({
   },
 
   data() {
-    const defaultNarrative = `
-        <h1>This is some free text you can add to your post!</h1>
-        <p>Optionally add whatever you'd like to discuss personally that will show up at the top of the recipe! Leave this section blank if you don't want a narrative.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <ol>
-          <li>add lists that can list out</li>
-          <li>whatever you would like</li>
-        </ol>
-      `
-
     return {
       title: null,
       ingredients: [
@@ -147,8 +144,7 @@ export default Vue.extend({
       cookTime: { time: null, units: 'minutes' },
       yieldServings: null,
 
-      defaultNarrative,
-      narrative: defaultNarrative,
+      narrative: null,
     }
   },
 
@@ -202,12 +198,10 @@ export default Vue.extend({
           images: this.images,
           prepTime: this.prepTime,
           cookTime: this.cookTime,
-          narrative:
-            (this.narrative !== this.defaultNarrative && this.narrative) ||
-            null,
+          narrative: this.narrative,
           yieldServings: this.yieldServings,
         })
-        this.$router.push(`/admin/recipes`)
+        this.$router.push(`/admin/settings/recipes`)
       } catch (err) {
         const baseErr =
           err.response &&

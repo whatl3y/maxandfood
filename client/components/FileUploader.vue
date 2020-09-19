@@ -18,12 +18,13 @@ export default {
   computed: {
     finalOptions() {
       return {
-        url: this.url || '/upload/image',
+        url: this.url || '/unprotected/upload/image',
         maxFilesize: 20480, // 20GB
         parallelUploads: 12,
         thumbnailHeight: 80,
         thumbnailWidth: 80,
         timeout: 600000, // 600s, 10min
+        dictDefaultMessage: 'Drop images here to upload!',
         ...this.options,
       }
     },
@@ -49,6 +50,8 @@ export default {
 <style lang="scss">
 .dropzone {
   border-style: dashed !important;
+  min-height: inherit;
+  padding: 5px;
 
   &.small-dropzone {
     font-size: 0.8em;

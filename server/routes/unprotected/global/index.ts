@@ -1,8 +1,8 @@
-import Google from '../../passport/google'
+import Google from '../../../passport/google'
 import { Request, Response } from 'express'
-import { newRouter } from '../../express'
-import { Account, AccountImage } from '../../models'
-import { arrayGroupBy } from '../../utils'
+import { newRouter } from '../../../express'
+import { Account, AccountImage } from '../../../models'
+import { arrayGroupBy } from '../../../utils'
 
 const google = Google()
 const router = newRouter()
@@ -15,11 +15,13 @@ const router = newRouter()
 
 router.get('/bodyimages', async (req: Request, res: Response) => {
   const images = await AccountImage.findAll({
-    where: { isEnabled: true },
+    where: {
+      isEnabled: true,
+      [`$account.domain_name$`]: req.get('host'),
+    },
     include: [
       {
         model: Account,
-        where: { domainName: req.get('host') },
       },
     ],
   })
