@@ -1,7 +1,11 @@
 <template lang="pug">
   v-container
     v-row(align="center" justify="center")
+      v-col(v-if="!homeRecipes || homeRecipes.length === 0")
+        v-alert.mx-auto.text-center(max-width="500" color="orange")
+          h4.m-0 No recipes available to show yet!
       v-col(
+        v-else
         v-for="(recipe, ind) in homeRecipes"
         :key="ind"
         cols="6"

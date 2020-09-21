@@ -1,4 +1,5 @@
 import { DataTypes, sequelize } from '../sequelize'
+import { RecipeImage, RecipeDirection, RecipeIngredient, Tag, User } from './'
 
 const Recipe = sequelize.define(
   'recipe',
@@ -41,12 +42,41 @@ const Recipe = sequelize.define(
   }
 )
 
+Recipe.getFullRecipe = async (recipeId) => {
+  return await Recipe.findOne({
+    where: { id: recipeId },
+    include: [
+      {
+        model: RecipeDirection,
+      },
+      {
+        model: RecipeImage,
+      },
+      {
+        model: RecipeIngredient,
+      },
+      {
+        model: Tag,
+      },
+      {
+        model: User,
+      },
+    ],
+    order: [
+      [{ model: RecipeDirection }, 'ordering', 'ASC'],
+      [{ model: RecipeImage }, 'ordering', 'ASC'],
+      [{ model: RecipeIngredient }, 'ordering', 'ASC'],
+    ],
+  })
+}
+
 Recipe.associate = (models) => {
   Recipe.belongsTo(models.Account)
   Recipe.belongsTo(models.User, { foreignKey: 'created_by' })
   Recipe.hasMany(models.RecipeDirection)
   Recipe.hasMany(models.RecipeImage)
   Recipe.hasMany(models.RecipeIngredient)
+  Recipe.belongsToMany(models.Tag, { through: models.RecipeTag })
 }
 
 export default Recipe

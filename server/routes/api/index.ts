@@ -1,15 +1,11 @@
 import passport from 'passport'
+import log from '../../logger'
 import { NextFunction, Request, Response } from 'express'
 import { newRouter } from '../../express'
 import { redis } from '../../redis'
 import apiVersions from './versions'
 
 const router = newRouter()
-
-// const log = bunyan.createLogger(config.logger.options)
-// const postgres = new PostgresClient(config.postgres.connection_string, {
-//   logger: log,
-// })
 
 router.all('/:version/:namespace/:command*', [
   jwtAuthMiddleware,
@@ -24,7 +20,7 @@ router.all('/:version/:namespace/:command*', [
       await apiVersions[version][namespace][finalCommand]({
         req,
         res,
-        // log,
+        log,
         // postgres,
         redis,
       })

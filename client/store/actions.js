@@ -34,6 +34,11 @@ export default {
     commit('SET_GLOBAL_INTEGRATIONS', data && data.integrations)
   },
 
+  async getAllTags({ commit }) {
+    const data = await this.$axios.$get('/unprotected/global/tags')
+    commit('SET_TAGS', data && data.tags)
+  },
+
   async getUser({ commit, state }, reset = false) {
     if (state.user && !reset) return
 

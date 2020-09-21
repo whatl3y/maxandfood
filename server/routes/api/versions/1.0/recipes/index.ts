@@ -1,10 +1,11 @@
 import { sequelize } from '../../../../../sequelize'
 import {
-  Account,
+  // Account,
   Recipe,
   RecipeDirection,
   RecipeImage,
   RecipeIngredient,
+  RecipeTag,
   User,
 } from '../../../../../models'
 
@@ -48,45 +49,25 @@ export default {
     res.json({ recipes })
   },
 
-  async get({ req, res, redis }) {
+  async get({ req, res, log }) {
     try {
       const recipeId = req.query.id
-      const recipe = await Recipe.findOne({
-        where: { id: recipeId },
-        include: [
-          {
-            model: RecipeDirection,
-          },
-          {
-            model: RecipeImage,
-          },
-          {
-            model: RecipeIngredient,
-          },
-          {
-            model: User,
-          },
-        ],
-        order: [
-          [{ model: RecipeDirection }, 'ordering', 'ASC'],
-          [{ model: RecipeImage }, 'ordering', 'ASC'],
-          [{ model: RecipeIngredient }, 'ordering', 'ASC'],
-        ],
-      })
+      const recipe = await Recipe.getFullRecipe(recipeId)
       res.json({ recipe })
     } catch (err) {
-      // TODO: error log for bad recipe
+      log.error(`Error getting recipe`, err)
       res.json({ recipe: null })
     }
   },
 
-  async save({ req, res, redis }) {
+  async save({ req, res }) {
     const {
       id,
       title,
       ingredients,
       directions,
       images,
+      tags,
       prepTime,
       cookTime,
       yieldServings,
@@ -131,8 +112,16 @@ export default {
       RecipeDirection.syncWithRecipe(recipe.id, directions),
       RecipeImage.syncWithRecipe(recipe.id, images),
       RecipeIngredient.syncWithRecipe(recipe.id, ingredients),
+      RecipeTag.syncWithRecipe(recipe.id, tags),
     ])
 
     res.json({ id: recipe.id })
+  },
+
+  async export({ req, res }) {
+    const recipeId = req.query.id
+    const recipe = await Recipe.getFullRecipe(recipeId)
+    res.attachment(`recipe.json`)
+    res.send(JSON.stringify(recipe))
   },
 }

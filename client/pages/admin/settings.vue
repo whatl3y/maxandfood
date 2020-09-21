@@ -8,10 +8,11 @@
             v-tabs-slider
             v-tab(
               v-for="(t, i) in tabs"
+              v-if="typeof t.condition === 'undefined' || t.condition"
               nuxt
               :key="i"
               :to="`/admin/settings/${t.link}`") {{ t.text }}
-      v-col(md="9")
+      v-col(md="8")
         nuxt-child
 </template>
 
@@ -25,6 +26,12 @@ export default Vue.extend({
     const tabs = [
       { text: 'Recipes', name: 'admin-settings-recipes', link: 'recipes' },
       { text: 'Account', name: 'admin-settings-account', link: 'account' },
+      {
+        text: 'Tags',
+        name: 'admin-settings-tags',
+        link: 'tags',
+        condition: true,
+      },
     ]
 
     return {

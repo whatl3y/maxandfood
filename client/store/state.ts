@@ -3,6 +3,7 @@ type IState = {
   bodyImages: any[]
 
   integrations: any
+  tags: any[]
   user: any
   account: any
   accountImages: any[]
@@ -19,6 +20,7 @@ const state = (): IState => ({
   bodyImages: [],
 
   integrations: null,
+  tags: [],
   user: null,
   account: null,
   accountImages: [],
@@ -28,6 +30,7 @@ const state = (): IState => ({
   recipe: null,
 
   snackbar: {
+    color: 'red',
     show: false,
     text: '',
   },

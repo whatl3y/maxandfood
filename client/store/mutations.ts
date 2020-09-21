@@ -10,6 +10,10 @@ const mutations: MutationTree<RootState> = {
     state.integrations = integrations
   },
 
+  SET_TAGS(state, tags: any[]) {
+    state.tags = tags
+  },
+
   SET_USER(state, user: any) {
     state.user = user
   },

@@ -34,6 +34,11 @@
           i.fa.fa-undo
         //- v-btn.mr-1(fab dark small color="black" @click='commands.redo')
         //-   i.fa.fa-redo
+        v-btn.mr-1(:id="`rte-image-${_uid}`" fab dark small color="black")
+          i.fa.fa-image
+        file-uploader.d-none(
+          :options="{ clickable: `#rte-image-${_uid}`, acceptedFiles: 'image/*' }"
+          @added="addImage(commands.image, ...arguments)")
     v-card.editor-card
       v-card-text
         editor-content.editor__content(:editor='editor')
@@ -41,6 +46,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -50,6 +56,7 @@ import {
   HorizontalRule,
   OrderedList,
   BulletList,
+  Image,
   ListItem,
   TodoItem,
   TodoList,
@@ -78,6 +85,8 @@ export default {
     },
   },
 
+  computed: mapState(['s3BucketUrl']),
+
   components: {
     EditorContent,
     EditorMenuBar,
@@ -99,6 +108,7 @@ export default {
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
+          new Image(),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),
@@ -122,6 +132,13 @@ export default {
       }),
     }
   },
+
+  methods: {
+    addImage(command, [, { imageNameOptimized }]) {
+      command({ src: `${this.s3BucketUrl}/${imageNameOptimized}` })
+    },
+  },
+
   beforeDestroy() {
     this.editor.destroy()
   },

@@ -20,7 +20,7 @@
             nuxt-link.d-flex.align-center(:to="`/p/${recipe.id}`")
               v-avatar.mr-2(v-if="recipe.recipe_images.length > 0" size="36")
                 img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
-              div {{ recipe.title }}
+              div {{ recipe.title || "No title..." }}
           td {{ $dayjs.formatDateTime(recipe.createdAt) }}
           td
             v-switch(

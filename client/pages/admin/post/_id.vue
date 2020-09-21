@@ -2,13 +2,16 @@
   v-container(fill-height)
     v-row(align-content="center" justify-content="center")
       v-col(offset-md="2" md="8")
-        h3.text-h3.text-center.mb-5 {{ id !== 'new' ? `Edit ${title}` : 'Create new recipe!' }}
+        h3.text-h3.text-center.mb-5
+          | {{ id !== 'new' ? `Edit ${title || 'recipe'}` : 'Create new recipe!' }}
 
         v-text-field(
           v-model='title'
           light
           prepend-icon='mdi-hamburger'
           label='Recipe Title')
+
+        tag-selector(v-model="tags")
 
         h3.text-h3.mt-5 Recipe Summary
         div.my-2
@@ -140,6 +143,7 @@ export default Vue.extend({
         // { description: null }
       ],
       images: [],
+      tags: [],
       prepTime: { time: null, units: 'minutes' },
       cookTime: { time: null, units: 'minutes' },
       yieldServings: null,
@@ -185,23 +189,26 @@ export default Vue.extend({
           JSON.stringify(this.recipe.recipe_directions)
         )
         this.images = JSON.parse(JSON.stringify(this.recipe.recipe_images))
+        this.tags = JSON.parse(JSON.stringify(this.recipe.tags))
       } catch (err) {}
     },
 
     async saveRecipe() {
       try {
-        await this.$axios.$post('/api/1.0/recipes/save', {
+        const { id } = await this.$axios.$post('/api/1.0/recipes/save', {
           id: (this.id !== 'new' && this.id) || null,
           title: this.title,
           ingredients: this.ingredients,
           directions: this.directions,
           images: this.images,
+          tags: this.tags,
           prepTime: this.prepTime,
           cookTime: this.cookTime,
           narrative: this.narrative,
           yieldServings: this.yieldServings,
         })
-        this.$router.push(`/admin/settings/recipes`)
+        // this.$router.push(`/admin/settings/recipes`)
+        this.$router.push(`/p/${id}`)
       } catch (err) {
         const baseErr =
           err.response &&

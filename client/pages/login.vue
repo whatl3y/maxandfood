@@ -4,9 +4,20 @@
       v-flex.login-form.text-xs-center
         v-alert(v-if="error" type="error") {{ error }}
         v-card.mx-auto(light max-width="400")
+          v-card-title
+            h2 Login
           v-card-text
             v-form(@submit="tryToLogin")
-              //- v-text-field(v-if='!options.isLoggingIn' v-model='user.name' light prepend-icon='person' label='Name')
+              div.mb-4
+                | If you do not have an account and would like to create one, 
+                | simply enter in your email address and a password
+                | below or authenticate with Google to create your account.
+              //- v-text-field(
+              //-   v-if='!options.isLoggingIn'
+              //-   v-model='user.name'
+              //-   light
+              //-   prepend-icon='person'
+              //-   label='Name')
               v-text-field(
                 v-model='email'
                 light

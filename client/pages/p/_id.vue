@@ -12,6 +12,12 @@
                 v-avatar(size="62")
                   img(:src="`${s3BucketUrl}/${recipe.recipe_images[0].imageNameOptimized}`")
               div {{ recipe.title }}
+          
+          div.mt-3(v-if="recipe.tags && recipe.tags.length > 0")
+            tag.mr-1(
+              v-for="tag in recipe.tags"
+              :key="`recipe-tag-${tag.id}`"
+              :color="tag.colorHex") {{ tag.name }}
 
           div.narrative.my-4(v-if="recipe.narrative")
             div(v-html="recipe.narrative")
@@ -61,8 +67,8 @@
                     :src="`${s3BucketUrl}/${img}`")
                 v-card-text(v-if="recipe.recipe_ingredients.length > 0 || recipe.recipe_directions.length > 0")
                   v-row(align="center" justify="center")
-                    v-col.mb-2(cols="12" md="6")
-                      h5.text-h5.mb-2 #[i.fa.fa-pepper-hot] Ingredients
+                    v-col.mb-2(v-if="recipe.recipe_ingredients.length > 0" cols="12" md="6")
+                      h5.text-h5.mb-3 #[i.fa.fa-pepper-hot] Ingredients
                       //- v-list
                       //-   v-list-item-group
                       //-     v-list-item.mb-2(v-for="(ing, ind) in recipe.recipe_ingredients" :key="ind")
@@ -72,8 +78,8 @@
                           | {{ ing.quantity }} {{ ing.measurement }} {{ ing.description || ing.raw.label }}
                     v-col.mb-2(cols="12" md="6")
                       h5.text-h5.mb-2 #[i.fa.fa-list-ol] Directions
-                      ol
-                        li.mb-2(v-for="(dir, ind) in recipe.recipe_directions" :key="ind")
+                      ol.directions.ml-2
+                        li.mb-3(v-for="(dir, ind) in recipe.recipe_directions" :key="ind")
                           | {{ dir.description }}
 
 </template>
@@ -121,6 +127,12 @@ export default Vue.extend({
       )
     },
   },
+
+  // methods: {
+  //   filterOnTag(tagId) {
+  //     console.log('TAGFILTER', tagId)
+  //   },
+  // },
 })
 </script>
 

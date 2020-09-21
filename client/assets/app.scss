@@ -38,3 +38,25 @@ a {
 .clickable {
   cursor: pointer;
 }
+
+ol.directions {
+  list-style: none;
+  counter-reset: li;
+
+  li {
+    counter-increment: li;
+  }
+
+  li::before {
+    border-right: 3px solid $primary;
+    padding-right: 0.5rem;
+    content: counter(li);
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: -2rem;
+    margin-right: 0.5rem;
+    text-align: right;
+    direction: rtl;
+  }
+}

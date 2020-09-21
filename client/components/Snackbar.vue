@@ -7,9 +7,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
+// import { mapState } from 'vuex'
 
 export default Vue.extend({
   computed: {
+    color() {
+      return this.$store.state.snackbar.color
+    },
+
     show: {
       get() {
         return this.$store.state.snackbar.show

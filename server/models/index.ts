@@ -5,6 +5,8 @@ import Recipe from './Recipe'
 import RecipeDirection from './RecipeDirection'
 import RecipeImage from './RecipeImage'
 import RecipeIngredient from './RecipeIngredient'
+import RecipeTag from './RecipeTag'
+import Tag from './Tag'
 import User from './User'
 import UserIntegration from './UserIntegration'
 
@@ -16,6 +18,8 @@ const models = {
   RecipeDirection,
   RecipeImage,
   RecipeIngredient,
+  RecipeTag,
+  Tag,
   User,
   UserIntegration,
 }
@@ -35,6 +39,8 @@ export {
   RecipeDirection,
   RecipeImage,
   RecipeIngredient,
+  RecipeTag,
+  Tag,
   User,
   UserIntegration,
 }
