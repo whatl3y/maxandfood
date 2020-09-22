@@ -26,8 +26,7 @@
           v-if="images.length > 0"
           v-model="images"
           tag="v-row"
-          align="center"
-          justify="center")
+          :component-data="{ props: { align: 'center', justify: 'center' }}")
             v-col(cols="6" md="3" v-for="(img, ind) in images" :key="`img-${ind}`")
               v-card(:elevation="1")
                 v-img(:src="`${s3BucketUrl}/${img.imageNameOptimized}`")
