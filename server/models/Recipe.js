@@ -57,6 +57,7 @@ Recipe.getFullRecipe = async (recipeId) => {
       },
       {
         model: Tag,
+        required: false,
         where: { isDeleted: { [Op.not]: true } },
       },
       {
