@@ -1,4 +1,4 @@
-import { DataTypes, sequelize } from '../sequelize'
+import { DataTypes, Op, sequelize } from '../sequelize'
 import { RecipeImage, RecipeDirection, RecipeIngredient, Tag, User } from './'
 
 const Recipe = sequelize.define(
@@ -57,6 +57,7 @@ Recipe.getFullRecipe = async (recipeId) => {
       },
       {
         model: Tag,
+        where: { isDeleted: { [Op.not]: true } },
       },
       {
         model: User,
@@ -66,6 +67,7 @@ Recipe.getFullRecipe = async (recipeId) => {
       [{ model: RecipeDirection }, 'ordering', 'ASC'],
       [{ model: RecipeImage }, 'ordering', 'ASC'],
       [{ model: RecipeIngredient }, 'ordering', 'ASC'],
+      sequelize.fn('lower', sequelize.col('tags.name')),
     ],
   })
 }

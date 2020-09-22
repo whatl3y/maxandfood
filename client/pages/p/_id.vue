@@ -16,6 +16,7 @@
           div.mt-3(v-if="recipe.tags && recipe.tags.length > 0")
             tag.mr-1(
               v-for="tag in recipe.tags"
+              small
               :key="`recipe-tag-${tag.id}`"
               :color="tag.colorHex") {{ tag.name }}
 

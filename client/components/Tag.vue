@@ -1,5 +1,9 @@
 <template lang="pug">
   v-chip(
+    :large="large"
+    :x-large="xLarge"
+    :small="small"
+    :x-small="xSmall"
     :close="close"
     :color="color || 'blue'"
     :text-color="getTextColor(color || 'blue')"
@@ -16,6 +20,10 @@ export default Vue.extend({
   props: {
     color: { type: String, default: null },
     close: { type: Boolean, default: false },
+    large: { type: Boolean, default: false },
+    xLarge: { type: Boolean, default: false },
+    small: { type: Boolean, default: false },
+    xSmall: { type: Boolean, default: false },
   },
 
   methods: {

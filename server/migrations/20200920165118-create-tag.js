@@ -18,6 +18,11 @@ module.exports = {
         type: Sequelize.STRING,
         field: 'color_hex',
       },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        field: 'is_deleted',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

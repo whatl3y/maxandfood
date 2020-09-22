@@ -12,6 +12,7 @@ const Tag = sequelize.define(
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     colorHex: DataTypes.STRING,
+    isDeleted: DataTypes.BOOLEAN,
   },
   {
     underscored: true,

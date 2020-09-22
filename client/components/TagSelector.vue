@@ -1,10 +1,10 @@
 <template lang="pug">
   v-combobox(
-    v-model="tagsForSelect"
-    :items="tags"
+    v-if="undeletedTags.length > 0"
+    v-model="selectedTags"
+    :items="undeletedTags"
     chips
     clearable
-    flat
     :label="label"
     prepend-icon="mdi-label"
     item-text="name"
@@ -30,7 +30,11 @@ export default Vue.extend({
   computed: {
     ...mapState(['tags']),
 
-    tagsForSelect: {
+    undeletedTags() {
+      return this.tags.filter((t) => !t.isDeleted)
+    },
+
+    selectedTags: {
       get() {
         return this.value
       },
@@ -43,7 +47,7 @@ export default Vue.extend({
 
   methods: {
     removeTag({ id }) {
-      this.tagsForSelect = this.tagsForSelect.filter((t) => t.id !== id)
+      this.selectedTags = this.selectedTags.filter((t) => t.id !== id)
     },
   },
 
