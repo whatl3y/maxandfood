@@ -56,7 +56,7 @@ export default {
       res.json({ recipe })
     } catch (err) {
       log.error(`Error getting recipe`, err)
-      res.json({ recipe: null })
+      res.status(500).json({ recipe: null })
     }
   },
 

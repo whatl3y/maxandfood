@@ -1,7 +1,7 @@
 import bunyan from 'bunyan'
 
 // import createCWStream from 'bunyan-cloudwatch'
-// const createCWStream = require('bunyan-cloudwatch')
+const createCWStream = require('bunyan-cloudwatch')
 
 const loggerOptions = {
   name: 'maxandfood',
@@ -10,18 +10,18 @@ const loggerOptions = {
     {
       stream: process.stdout,
     },
-    // {
-    //   stream: createCWStream({
-    //     logGroupName:
-    //       process.env.AWS_CLOUDWATCH_LOGS_GROUP || 'phalanx_dev',
-    //     logStreamName:
-    //       process.env.AWS_CLOUDWATCH_LOGS_STREAM || 'anonymous',
-    //     cloudWatchLogsOptions: {
-    //       region: process.env.AWS_CLOUDWATCH_LOGS_REGION || 'us-east-1',
-    //     },
-    //   }),
-    //   type: 'raw',
-    // },
+    {
+      stream: createCWStream({
+        logGroupName:
+          process.env.AWS_CLOUDWATCH_LOGS_GROUP || 'maxandfood',
+        logStreamName:
+          process.env.AWS_CLOUDWATCH_LOGS_STREAM || 'anonymous',
+        cloudWatchLogsOptions: {
+          region: process.env.AWS_CLOUDWATCH_LOGS_REGION || 'us-east-1',
+        },
+      }),
+      type: 'raw',
+    },
   ],
 }
 
