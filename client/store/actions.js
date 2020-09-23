@@ -58,10 +58,17 @@ export default {
   },
 
   async getRecipe({ commit }, recipeId) {
-    const { recipe } = await this.$axios.$get(
+    const { recipe, ratingAvg, userRating } = await this.$axios.$get(
       `/api/1.0/recipes/get?id=${recipeId}`
     )
     commit('SET_RECIPE', recipe)
+    commit('SET_RECIPE_AVG_RATING', ratingAvg)
+    commit('SET_RECIPE_USER_RATING', userRating)
+  },
+
+  async setRecipeUserRating({ commit }, { recipeId, rating }) {
+    await this.$axios.$post(`/api/1.0/recipes/rating`, { recipeId, rating })
+    commit('SET_RECIPE_USER_RATING', rating)
   },
 
   async getHomeRecipes({ commit }) {

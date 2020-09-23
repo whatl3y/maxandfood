@@ -209,12 +209,7 @@ export default Vue.extend({
         // this.$router.push(`/admin/settings/recipes`)
         this.$router.push(`/p/${id}`)
       } catch (err) {
-        const baseErr =
-          err.response &&
-          err.response.data &&
-          err.response.data.error &&
-          err.response.data.error.message
-        this.$store.commit('SET_SNACKBAR_TEXT', baseErr)
+        this.$toast.responseError(err)
       }
     },
   },

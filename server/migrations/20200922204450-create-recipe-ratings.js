@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'recipe_tags',
+      'recipe_ratings',
       {
         id: {
           allowNull: false,
@@ -19,14 +19,20 @@ module.exports = {
           },
           field: 'recipe_id',
         },
-        tagId: {
+        userId: {
           allowNull: false,
           type: Sequelize.UUID,
           references: {
-            model: 'tags',
+            model: 'users',
             key: 'id',
           },
-          field: 'tag_id',
+          field: 'user_id',
+        },
+        rating: {
+          type: Sequelize.INTEGER,
+        },
+        comment: {
+          type: Sequelize.TEXT,
         },
         createdAt: {
           allowNull: false,
@@ -43,13 +49,13 @@ module.exports = {
         indexes: [
           {
             unique: true,
-            fields: ['recipe_id', 'tag_id'],
+            fields: ['recipe_id', 'user_id'],
           },
         ],
       }
     )
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('recipe_tags')
+    await queryInterface.dropTable('recipe_ratings')
   },
 }

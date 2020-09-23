@@ -5,6 +5,7 @@ import {
   RecipeDirection,
   RecipeImage,
   RecipeIngredient,
+  RecipeRating,
   RecipeTag,
   User,
 } from '../../../../../models'
@@ -52,8 +53,25 @@ export default {
   async get({ req, res, log }) {
     try {
       const recipeId = req.query.id
-      const recipe = await Recipe.getFullRecipe(recipeId)
-      res.json({ recipe })
+      const [recipe, ratingAvg, userRating] = await Promise.all([
+        Recipe.getFullRecipe(recipeId),
+        RecipeRating.findOne({
+          where: { recipeId },
+          attributes: [
+            'recipeId',
+            [sequelize.fn('avg', sequelize.col('rating')), 'rating'],
+          ],
+          group: ['recipeId'],
+        }),
+        RecipeRating.findOne({
+          where: { recipeId, userId: (req.user && req.user.id) || null },
+        }),
+      ])
+      res.json({
+        recipe,
+        ratingAvg: ratingAvg && parseFloat(ratingAvg.rating),
+        userRating: userRating && userRating.rating,
+      })
     } catch (err) {
       log.error(`Error getting recipe`, err)
       res.status(500).json({ recipe: null })
@@ -116,6 +134,18 @@ export default {
     ])
 
     res.json({ id: recipe.id })
+  },
+
+  async rating({ req, res }) {
+    const { rating, recipeId } = req.body
+    const userId = req.user.id
+
+    const [rateInst] = await RecipeRating.findOrCreate({
+      where: { recipeId, userId },
+    })
+    rateInst.rating = rating || rateInst.rating
+    await rateInst.save()
+    res.json(true)
   },
 
   async export({ req, res }) {

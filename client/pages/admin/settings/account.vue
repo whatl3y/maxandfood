@@ -110,17 +110,9 @@ export default Vue.extend({
           account: this.account,
           images: this.accountImages,
         })
-        this.$store.commit(
-          'SET_SNACKBAR_TEXT',
-          `Successfully saved account info!`
-        )
+        this.$toast.success(`Successfully saved account info!`)
       } catch (err) {
-        const baseErr =
-          err.response &&
-          err.response.data &&
-          err.response.data.error &&
-          err.response.data.error.message
-        this.$store.commit('SET_SNACKBAR_TEXT', baseErr)
+        this.$toast.responseError(err)
       }
     },
 

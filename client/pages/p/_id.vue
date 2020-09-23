@@ -49,18 +49,32 @@
             v-col.mb-4(md="12")
               //- images-previewer(:images="recipeImages")
               v-card(elevation="1")
-                v-list(two-line)
-                  v-list-item
-                    v-list-item-avatar(v-if="recipe.user && recipe.user.avatarUrl")
-                      v-img(:src="recipe.user.avatarUrl")
-                    v-list-item-content
-                      div.d-flex
-                        div
-                          v-list-item-title {{ recipe.user.firstName }} {{ recipe.user.lastName }}
-                          v-list-item-subtitle {{ $dayjs.formatDateTime(recipe.createdAt) }}
-                        div.ml-auto.d-flex.align-end(v-if="recipe.yieldServings")
-                          h4.text-h4.mr-1 {{ recipe.yieldServings }}
-                          small.text--secondary servings
+                div.d-flex.align-center
+                  v-list(two-line)
+                    v-list-item
+                      v-list-item-avatar(v-if="recipe.user && recipe.user.avatarUrl")
+                        v-img(:src="recipe.user.avatarUrl")
+                      v-list-item-content
+                        div.d-flex
+                          div
+                            v-list-item-title {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+                            v-list-item-subtitle {{ $dayjs.formatDate(recipe.createdAt) }}
+                          div.ml-auto.d-flex.align-end(v-if="recipe.yieldServings")
+                            h4.text-h4.mr-1 {{ recipe.yieldServings }}
+                            small.text--secondary servings
+                  div.ml-auto.px-4.d-flex.flex-column.align-end
+                    div.grey--text
+                      small.success--text(v-if="recipeUserRating")
+                        | Thanks for rating this recipe with a #[strong {{ recipeUserRating }}]
+                      small(v-else) Rate {{ recipe.user.firstName }}'s recipe!
+                    v-rating(
+                      small
+                      dense
+                      hover
+                      half-increments
+                      color="orange"
+                      :value="recipeAvgRating"
+                      @input="setUserRating")
                 v-carousel(:cycle="true")
                   v-carousel-item(
                     v-for="(img, ind) in recipeImages"
@@ -102,7 +116,13 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapState(['s3BucketUrl', 'recipe', 'user']),
+    ...mapState([
+      's3BucketUrl',
+      'recipe',
+      'recipeAvgRating',
+      'recipeUserRating',
+      'user',
+    ]),
 
     id() {
       return this.$route.params.id
@@ -129,11 +149,23 @@ export default Vue.extend({
     },
   },
 
-  // methods: {
-  //   filterOnTag(tagId) {
-  //     console.log('TAGFILTER', tagId)
-  //   },
-  // },
+  methods: {
+    // filterOnTag(tagId) {
+    //   console.log('TAGFILTER', tagId)
+    // },
+
+    async setUserRating(newRating) {
+      if (!this.user) {
+        return this.$toast.error(
+          `Sorry, you have to be logged in to add a rating!`
+        )
+      }
+      await this.$store.dispatch('setRecipeUserRating', {
+        recipeId: this.id,
+        rating: Math.round(newRating),
+      })
+    },
+  },
 })
 </script>
 

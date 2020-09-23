@@ -15,7 +15,7 @@
             v-if="user && user.avatarUrl"
             :src="user.avatarUrl"
             :alt="user.firstName")
-          v-icon(v-else dark) mdi-account-circle
+          v-icon(v-else dark color="primary") mdi-account-circle
         //- v-btn(icon)
         //-   v-icon mdi-food-fork-drink
       nuxt-link(to="/admin/post/new" title="Add recipe!")

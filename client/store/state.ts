@@ -11,6 +11,8 @@ type IState = {
   homeRecipes: any[]
   allRecipes: any[]
   recipe: any
+  recipeAvgRating: number
+  recipeUserRating: number
 
   snackbar: any
 }
@@ -28,6 +30,8 @@ const state = (): IState => ({
   homeRecipes: [],
   allRecipes: [],
   recipe: null,
+  recipeAvgRating: null,
+  recipeUserRating: null,
 
   snackbar: {
     color: 'red',

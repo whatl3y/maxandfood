@@ -41,15 +41,36 @@ const mutations: MutationTree<RootState> = {
     state.recipe = recipe
   },
 
+  SET_RECIPE_AVG_RATING(state, rating: null | number) {
+    state.recipeAvgRating = rating
+  },
+
+  SET_RECIPE_USER_RATING(state, rating: null | number) {
+    state.recipeUserRating = rating
+  },
+
   SET_HOME_RECIPES(state, recipes: any) {
     state.homeRecipes = recipes
+  },
+
+  SET_SNACKBAR_COLOR(state, color) {
+    state.snackbar.color = color
   },
 
   SET_SNACKBAR_SHOW(state, show) {
     state.snackbar.show = show
   },
 
-  SET_SNACKBAR_TEXT(state, text) {
+  SET_SNACKBAR(state, info) {
+    let color: string = 'red'
+    let text: string = ''
+    if (typeof info === 'object') {
+      color = info.color
+      text = info.text
+    } else {
+      text = info
+    }
+    state.snackbar.color = color || 'red'
     state.snackbar.text = text
     state.snackbar.show = true
   },

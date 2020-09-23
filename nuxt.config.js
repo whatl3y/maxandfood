@@ -50,6 +50,7 @@ export default {
     '@/plugins/dayjs.js',
     '@/plugins/draggable.js',
     '@/plugins/dropzone.js',
+    '@/plugins/toast.js',
     '@/plugins/vue-select.js',
   ],
   /*
