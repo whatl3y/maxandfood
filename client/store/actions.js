@@ -66,7 +66,7 @@ export default {
     commit('SET_RECIPE_USER_RATING', userRating)
   },
 
-  async setRecipeUserRating({ commit }, { recipeId, rating }) {
+  async setRecipeRating({ commit }, { recipeId, rating }) {
     await this.$axios.$post(`/api/1.0/recipes/rating`, { recipeId, rating })
     commit('SET_RECIPE_USER_RATING', rating)
   },

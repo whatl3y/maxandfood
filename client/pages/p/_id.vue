@@ -49,39 +49,39 @@
             v-col.mb-4(md="12")
               //- images-previewer(:images="recipeImages")
               v-card(elevation="1")
-                div.d-flex.align-center
-                  v-list(two-line)
-                    v-list-item
-                      v-list-item-avatar(v-if="recipe.user && recipe.user.avatarUrl")
-                        v-img(:src="recipe.user.avatarUrl")
-                      v-list-item-content
-                        div.d-flex
-                          div
-                            v-list-item-title {{ recipe.user.firstName }} {{ recipe.user.lastName }}
-                            v-list-item-subtitle {{ $dayjs.formatDate(recipe.createdAt) }}
-                          div.ml-auto.d-flex.align-end(v-if="recipe.yieldServings")
+                v-list(two-line)
+                  v-list-item
+                    v-list-item-avatar(v-if="recipe.user && recipe.user.avatarUrl")
+                      v-img(:src="recipe.user.avatarUrl")
+                    v-list-item-content
+                      div.d-flex.justify-space-between
+                        div
+                          v-list-item-title {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+                          v-list-item-subtitle {{ $dayjs.formatDate(recipe.createdAt) }}
+                        div.d-flex.align-center
+                          template(v-if="recipe.yieldServings")
                             h4.text-h4.mr-1 {{ recipe.yieldServings }}
                             small.text--secondary servings
-                  div.ml-auto.px-4.d-flex.flex-column.align-end
-                    div.grey--text
-                      small.success--text(v-if="recipeUserRating")
-                        | Thanks for rating this recipe with a #[strong {{ recipeUserRating }}]
-                      small(v-else) Rate {{ recipe.user.firstName }}'s recipe!
-                    v-rating(
-                      small
-                      dense
-                      hover
-                      half-increments
-                      color="orange"
-                      :value="recipeAvgRating"
-                      @input="setUserRating")
+                        div.d-flex.flex-column.align-end
+                          div.grey--text
+                            small.success--text(v-if="recipeUserRating")
+                              | Thanks for rating this recipe with a #[strong {{ recipeUserRating }}]
+                            small(v-else) Rate {{ recipe.user.firstName }}'s recipe!
+                          v-rating(
+                            small
+                            dense
+                            hover
+                            half-increments
+                            color="orange"
+                            :value="recipeAvgRating"
+                            @input="setUserRating")
                 v-carousel(:cycle="true")
                   v-carousel-item(
                     v-for="(img, ind) in recipeImages"
                     :key="`img-carousel-${ind}`"
                     :src="`${s3BucketUrl}/${img}`")
                 v-card-text(v-if="recipe.recipe_ingredients.length > 0 || recipe.recipe_directions.length > 0")
-                  v-row(align="center" justify="center")
+                  v-row(align="start" justify="center")
                     v-col.mb-2(v-if="recipe.recipe_ingredients.length > 0" cols="12" md="6")
                       h5.text-h5.mb-3 #[i.fa.fa-pepper-hot] Ingredients
                       //- v-list

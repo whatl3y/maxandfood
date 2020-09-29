@@ -36,8 +36,8 @@ export function jwtAuthMiddleware(
   next: NextFunction
 ) {
   passport.authenticate('jwt', { session: false }, function (err, user) {
-    // TODO: what to do here by default if bad, expired, or no token?
     if (err) return res.status(500).json({ error: err.toJSON() })
+
     if (!user) {
       const noAuthNeeded = noAuthRequired().some((str) =>
         new RegExp(`^${str}$`).test(req.path)

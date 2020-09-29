@@ -11,11 +11,7 @@ export default function JWTPassportStrategy() {
       secretOrKey: process.env.SECRET_KEY,
     },
     handler: async function PassportJWTHandler(jwtPayload, done) {
-      if (Date.now() > jwtPayload.expires) {
-        // TODO: revoke token and force reauth
-        return done(new Error('JWT token has expired'))
-      }
-
+      if (Date.now() > jwtPayload.expires) return done()
       done(null, jwtPayload)
     },
   }

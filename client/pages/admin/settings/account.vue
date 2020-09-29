@@ -105,7 +105,6 @@ export default Vue.extend({
   methods: {
     async saveAccount() {
       try {
-        // console.log('ACCOUNT', this.account, this.accountImages)
         await this.$axios.$post('/api/1.0/accounts/save', {
           account: this.account,
           images: this.accountImages,
